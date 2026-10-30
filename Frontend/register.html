@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Sign Up | Smart Campus Navigator</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+
+            background: #f4f6fa;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            padding: 35px;
+        }
+
+
+        /* =========================
+           MAIN CONTAINER
+        ========================= */
+
+        .register-container {
+
+            width: 100%;
+            max-width: 1200px;
+
+            min-height: 680px;
+
+            background: white;
+
+            display: grid;
+
+            grid-template-columns: 55% 45%;
+
+            border-radius: 12px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 12px 35px rgba(0,0,0,0.12);
+
+            animation: appear 0.5s ease;
+        }
+
+
+        /* =========================
+           LEFT SIDE
+        ========================= */
+
+        .register-left {
+
+            background: white;
+
+            padding: 55px 75px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: center;
+        }
+
+
+        .form-container {
+
+            width: 100%;
+
+            max-width: 480px;
+
+            margin: auto;
+        }
+
+
+        /* =========================
+           TITLE
+        ========================= */
+
+        .register-title {
+
+            color: #123a91;
+
+            font-size: 36px;
+
+            font-weight: 600;
+
+            margin-bottom: 10px;
+        }
+
+
+        .register-subtitle {
+
+            color: #7c858f;
+
+            font-size: 16px;
+
+            margin-bottom: 30px;
+
+            line-height: 1.5;
+        }
+
+
+        /* =========================
+           FORM
+        ========================= */
+
+        .form-group {
+
+            margin-bottom: 18px;
+        }
+
+
+        .form-group label {
+
+            display: block;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            color: #333;
+
+            margin-bottom: 8px;
+        }
+
+
+        .form-group input {
+
+            width: 100%;
+
+            height: 48px;
+
+            border: 1px solid #d5d9df;
+
+            border-radius: 7px;
+
+            padding: 0 15px;
+
+            font-size: 14px;
+
+            outline: none;
+
+            color: #26384f;
+
+            transition: 0.25s;
+        }
+
+
+        .form-group input:focus {
+
+            border-color: #123a91;
+
+            box-shadow:
+                0 0 0 3px rgba(18,58,145,0.10);
+        }
+
+
+        .form-group input::placeholder {
+
+            color: #a2a7ad;
+        }
+
+
+        /* =========================
+           PASSWORD
+        ========================= */
+
+        .password-wrapper {
+
+            position: relative;
+        }
+
+
+        .password-wrapper input {
+
+            padding-right: 75px;
+        }
+
+
+        .show-password {
+
+            position: absolute;
+
+            right: 14px;
+
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            font-size: 12px;
+
+            color: #123a91;
+
+            cursor: pointer;
+
+            user-select: none;
+
+            font-weight: 600;
+        }
+
+
+        /* =========================
+           REGISTER BUTTON
+        ========================= */
+
+        .register-btn {
+
+            width: 100%;
+
+            height: 50px;
+
+            border: none;
+
+            border-radius: 7px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #123a91,
+                    #07549a
+                );
+
+            color: white;
+
+            font-size: 15px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            margin-top: 5px;
+
+            transition: 0.25s;
+        }
+
+
+        .register-btn:hover {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #0d2e76,
+                    #06467f
+                );
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 8px 18px rgba(18,58,145,0.22);
+        }
+
+
+        /* =========================
+           LOGIN
+        ========================= */
+
+        .login-text {
+
+            text-align: center;
+
+            margin-top: 22px;
+
+            font-size: 14px;
+
+            color: #666;
+        }
+
+
+        .login-text a {
+
+            color: #123a91;
+
+            text-decoration: none;
+
+            font-weight: 600;
+        }
+
+
+        .login-text a:hover {
+
+            text-decoration: underline;
+        }
+
+
+        /* =========================
+           RIGHT SIDE
+        ========================= */
+
+        .register-right {
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #123a91 0%,
+                    #07549a 55%,
+                    #0c67b7 100%
+                );
+
+            position: relative;
+
+            color: white;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            padding: 40px;
+
+            overflow: hidden;
+        }
+
+
+        /* =========================
+           DECORATIVE CIRCLES
+        ========================= */
+
+        .register-right::before {
+
+            content: "";
+
+            position: absolute;
+
+            width: 320px;
+
+            height: 320px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(255,255,255,0.06);
+
+            top: -150px;
+
+            right: -120px;
+        }
+
+
+        .register-right::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 230px;
+
+            height: 230px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(255,255,255,0.05);
+
+            bottom: -120px;
+
+            left: -90px;
+        }
+
+
+        /* =========================
+           COLLEGE NAME
+        ========================= */
+
+        .college-name {
+
+            position: absolute;
+
+            top: 35px;
+
+            left: 25px;
+
+            right: 25px;
+
+            text-align: center;
+
+            color: white;
+
+            font-size: 21px;
+
+            font-weight: 700;
+
+            letter-spacing: 1.2px;
+
+            line-height: 1.4;
+
+            z-index: 5;
+        }
+
+
+        .college-name span {
+
+            display: block;
+
+            font-size: 16px;
+
+            font-weight: 500;
+
+            letter-spacing: 5px;
+
+            margin-top: 5px;
+        }
+
+
+        /* =========================
+           RIGHT CONTENT
+        ========================= */
+
+        .right-content {
+
+            text-align: center;
+
+            max-width: 390px;
+
+            position: relative;
+
+            z-index: 2;
+
+            margin-top: 105px;
+        }
+
+
+        .campus-icon {
+
+            width: 82px;
+
+            height: 82px;
+
+            margin: 0 auto 24px;
+
+            border:
+                2px solid rgba(255,255,255,0.7);
+
+            border-radius: 15px;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            font-size: 38px;
+
+            background:
+                rgba(255,255,255,0.08);
+
+            animation:
+                floating 3s ease-in-out infinite;
+        }
+
+
+        .right-title {
+
+            font-size: 30px;
+
+            letter-spacing: 2px;
+
+            font-weight: 600;
+
+            margin-bottom: 4px;
+        }
+
+
+        .right-subtitle {
+
+            font-size: 21px;
+
+            letter-spacing: 5px;
+
+            font-weight: 300;
+        }
+
+
+        .right-line {
+
+            width: 90px;
+
+            height: 2px;
+
+            background:
+                rgba(255,255,255,0.8);
+
+            margin: 28px auto;
+        }
+
+
+        .right-description {
+
+            font-size: 16px;
+
+            line-height: 1.7;
+
+            color:
+                rgba(255,255,255,0.92);
+
+            margin-bottom: 35px;
+        }
+
+
+        /* =========================
+           HOME BUTTON
+        ========================= */
+
+        .home-btn {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 8px;
+
+            min-width: 170px;
+
+            height: 50px;
+
+            border:
+                2px solid rgba(255,255,255,0.75);
+
+            border-radius: 7px;
+
+            color: white;
+
+            text-decoration: none;
+
+            font-size: 15px;
+
+            transition: 0.25s;
+        }
+
+
+        .home-btn:hover {
+
+            background: white;
+
+            color: #123a91;
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 8px 18px rgba(0,0,0,0.12);
+        }
+
+
+        /* =========================
+           ANIMATION
+        ========================= */
+
+        @keyframes appear {
+
+            from {
+
+                opacity: 0;
+
+                transform: translateY(15px);
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform: translateY(0);
+            }
+        }
+
+
+        @keyframes floating {
+
+            0%, 100% {
+
+                transform: translateY(0);
+            }
+
+            50% {
+
+                transform: translateY(-6px);
+            }
+        }
+
+
+        /* =========================
+           TABLET
+        ========================= */
+
+        @media (max-width: 850px) {
+
+            body {
+
+                padding: 20px;
+            }
+
+
+            .register-container {
+
+                grid-template-columns: 1fr;
+
+                max-width: 600px;
+            }
+
+
+            .register-right {
+
+                min-height: 480px;
+
+                order: -1;
+            }
+
+
+            .register-left {
+
+                padding: 50px 40px;
+            }
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 600px) {
+
+            body {
+
+                padding: 10px;
+            }
+
+
+            .register-left {
+
+                padding: 40px 25px;
+            }
+
+
+            .register-title {
+
+                font-size: 30px;
+            }
+
+
+            .register-subtitle {
+
+                font-size: 14px;
+            }
+
+
+            .register-right {
+
+                min-height: 440px;
+
+                padding: 30px 25px;
+            }
+
+
+            .college-name {
+
+                font-size: 12px;
+
+                top: 22px;
+            }
+
+
+            .college-name span {
+
+                font-size: 11px;
+
+                letter-spacing: 3px;
+            }
+
+
+            .right-content {
+
+                margin-top: 95px;
+            }
+
+
+            .right-title {
+
+                font-size: 25px;
+            }
+
+
+            .right-subtitle {
+
+                font-size: 18px;
+            }
+
+
+            .right-description {
+
+                font-size: 14px;
+            }
+        }
+
+
+        @media (max-width: 450px) {
+
+            .register-left {
+
+                padding: 35px 20px;
+            }
+
+
+            .register-title {
+
+                font-size: 27px;
+            }
+
+
+            .register-right {
+
+                min-height: 410px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         MAIN CONTAINER
+    ========================== -->
+
+    <div class="register-container">
+
+
+        <!-- =========================
+             LEFT SIDE
+        ========================== -->
+
+        <div class="register-left">
+
+            <div class="form-container">
+
+
+                <h1 class="register-title">
+                    Create Account
+                </h1>
+
+
+                <p class="register-subtitle">
+                    Register your account to access Smart Campus Navigator
+                </p>
+
+
+                <!-- NAME -->
+
+                <div class="form-group">
+
+                    <label for="name">
+                        Full Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="name"
+                        placeholder="Enter your full name"
+                        autocomplete="name"
+                    >
+
+                </div>
+
+
+                <!-- EMAIL -->
+
+                <div class="form-group">
+
+                    <label for="email">
+                        Email Address
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        placeholder="Enter your email"
+                        autocomplete="email"
+                    >
+
+                </div>
+
+
+                <!-- USERNAME -->
+
+                <div class="form-group">
+
+                    <label for="username">
+                        Username
+                    </label>
+
+                    <input
+                        type="text"
+                        id="username"
+                        placeholder="Create a username"
+                        autocomplete="username"
+                    >
+
+                </div>
+
+
+                <!-- PASSWORD -->
+
+                <div class="form-group">
+
+                    <label for="password">
+                        Password
+                    </label>
+
+                    <div class="password-wrapper">
+
+                        <input
+                            type="password"
+                            id="password"
+                            placeholder="Create a password"
+                            autocomplete="new-password"
+                        >
+
+                        <span
+                            class="show-password"
+                            onclick="togglePassword('password', this)"
+                        >
+                            Show
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- CONFIRM PASSWORD -->
+
+                <div class="form-group">
+
+                    <label for="confirmPassword">
+                        Confirm Password
+                    </label>
+
+                    <div class="password-wrapper">
+
+                        <input
+                            type="password"
+                            id="confirmPassword"
+                            placeholder="Confirm your password"
+                            autocomplete="new-password"
+                        >
+
+                        <span
+                            class="show-password"
+                            onclick="togglePassword('confirmPassword', this)"
+                        >
+                            Show
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- REGISTER BUTTON -->
+
+                <button
+                    class="register-btn"
+                    onclick="registerUser()"
+                >
+
+                    Create Account
+
+                </button>
+
+
+                <!-- LOGIN -->
+
+                <div class="login-text">
+
+                    Already have an account?
+
+                    <a href="login.html">
+                        Sign In
+                    </a>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             RIGHT SIDE
+        ========================== -->
+
+        <div class="register-right">
+
+
+            <!-- COLLEGE NAME -->
+
+            <div class="college-name">
+
+                VISHWAKARMA INSTITUTE OF TECHNOLOGY
+
+                <span>
+                    PUNE
+                </span>
+
+            </div>
+
+
+            <!-- RIGHT CONTENT -->
+
+            <div class="right-content">
+
+                <div class="campus-icon">
+                    🏫
+                </div>
+
+
+                <h2 class="right-title">
+                    SMART CAMPUS
+                </h2>
+
+
+                <h3 class="right-subtitle">
+                    NAVIGATOR
+                </h3>
+
+
+                <div class="right-line"></div>
+
+
+                <p class="right-description">
+
+                    Create your account and get quick
+                    access to campus locations, faculty,
+                    departments and buildings.
+
+                </p>
+
+
+                <a
+                    href="index.html"
+                    class="home-btn"
+                >
+
+                    🏠 &nbsp; Home
+
+                </a>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         JAVASCRIPT
+    ========================== -->
+
+    <script>
+
+
+        /* =========================
+           TOGGLE PASSWORD
+        ========================= */
+
+        function togglePassword(inputId, element) {
+
+            const input =
+                document.getElementById(inputId);
+
+
+            if (input.type === "password") {
+
+                input.type = "text";
+
+                element.innerText = "Hide";
+
+            }
+
+            else {
+
+                input.type = "password";
+
+                element.innerText = "Show";
+
+            }
+
+        }
+
+
+        /* =========================
+           REGISTER USER
+        ========================= */
+
+        function registerUser() {
+
+            const name =
+                document
+                .getElementById("name")
+                .value
+                .trim();
+
+
+            const email =
+                document
+                .getElementById("email")
+                .value
+                .trim();
+
+
+            const username =
+                document
+                .getElementById("username")
+                .value
+                .trim();
+
+
+            const password =
+                document
+                .getElementById("password")
+                .value;
+
+
+            const confirmPassword =
+                document
+                .getElementById("confirmPassword")
+                .value;
+
+
+            /* =========================
+               VALIDATION
+            ========================= */
+
+            if (
+
+                name === "" ||
+
+                email === "" ||
+
+                username === "" ||
+
+                password === "" ||
+
+                confirmPassword === ""
+
+            ) {
+
+                alert(
+                    "Please fill all fields."
+                );
+
+                return;
+
+            }
+
+
+            if (password.length < 6) {
+
+                alert(
+                    "Password must contain at least 6 characters."
+                );
+
+                return;
+
+            }
+
+
+            if (password !== confirmPassword) {
+
+                alert(
+                    "Password and Confirm Password do not match."
+                );
+
+                return;
+
+            }
+
+
+            /* =========================
+               EMAIL CHECK
+            ========================= */
+
+            const emailPattern =
+                /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+
+            if (!emailPattern.test(email)) {
+
+                alert(
+                    "Please enter a valid email address."
+                );
+
+                return;
+
+            }
+
+
+            /* =========================
+               EXISTING USER
+            ========================= */
+
+            const existingUser =
+                localStorage.getItem(
+                    "smartCampusUser"
+                );
+
+
+            if (existingUser) {
+
+                const user =
+                    JSON.parse(existingUser);
+
+
+                if (
+
+                    user.username === username ||
+
+                    user.email === email
+
+                ) {
+
+                    alert(
+                        "Username or Email is already registered."
+                    );
+
+                    return;
+
+                }
+
+            }
+
+
+            /* =========================
+               SAVE USER
+            ========================= */
+
+            const user = {
+
+                name: name,
+
+                email: email,
+
+                username: username,
+
+                password: password
+
+            };
+
+
+            localStorage.setItem(
+
+                "smartCampusUser",
+
+                JSON.stringify(user)
+
+            );
+
+
+            /* =========================
+               SUCCESS
+            ========================= */
+
+            alert(
+                "Account created successfully!"
+            );
+
+
+            window.location.href =
+                "login.html";
+
+        }
+
+    </script>
+
+
+</body>
+
+</html>

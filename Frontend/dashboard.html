@@ -1,0 +1,1717 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard | Smart Campus Navigator</title>
+
+    <style>
+
+        /* =====================================================
+           RESET
+        ===================================================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f4f6fa;
+            color: #1d2733;
+            min-height: 100vh;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+
+        /* =====================================================
+           MAIN LAYOUT
+        ===================================================== */
+
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+
+        /* =====================================================
+           SIDEBAR
+        ===================================================== */
+
+        .sidebar {
+            width: 245px;
+            min-height: 100vh;
+
+            background: linear-gradient(
+                180deg,
+                #123a91,
+                #06276f
+            );
+
+            color: white;
+
+            padding: 25px 16px;
+
+            position: fixed;
+
+            left: 0;
+            top: 0;
+            bottom: 0;
+
+            z-index: 100;
+
+            display: flex;
+            flex-direction: column;
+
+            box-shadow: 5px 0 20px rgba(0,0,0,0.08);
+        }
+
+
+        /* =====================================================
+           LOGO
+        ===================================================== */
+
+        .logo-box {
+            text-align: center;
+            margin-bottom: 35px;
+            animation: fadeDown 0.7s ease;
+        }
+
+        .logo-icon {
+            width: 62px;
+            height: 62px;
+
+            margin: auto;
+            margin-bottom: 12px;
+
+            border-radius: 18px;
+
+            background: rgba(255,255,255,0.12);
+
+            display: flex;
+
+            justify-content: center;
+            align-items: center;
+
+            font-size: 34px;
+
+            box-shadow:
+                0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        .logo-title {
+            font-size: 17px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .logo-subtitle {
+            font-size: 10px;
+            color: rgba(255,255,255,0.7);
+            margin-top: 5px;
+            letter-spacing: 1px;
+        }
+
+
+        /* =====================================================
+           SIDEBAR MENU
+        ===================================================== */
+
+        .menu {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .menu-title {
+            font-size: 10px;
+            color: rgba(255,255,255,0.5);
+            letter-spacing: 1.5px;
+            margin: 5px 12px 8px;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+
+            gap: 13px;
+
+            padding: 12px 13px;
+
+            border-radius: 9px;
+
+            color: rgba(255,255,255,0.78);
+
+            font-size: 13px;
+
+            transition: 0.25s;
+
+            cursor: pointer;
+        }
+
+        .menu-item:hover {
+            background: rgba(255,255,255,0.12);
+            color: white;
+            transform: translateX(4px);
+        }
+
+        .menu-item.active {
+            background: white;
+            color: #123a91;
+            font-weight: 600;
+
+            box-shadow:
+                0 5px 15px rgba(0,0,0,0.12);
+        }
+
+        .menu-icon {
+            width: 22px;
+            text-align: center;
+            font-size: 17px;
+        }
+
+
+        /* =====================================================
+           LOGOUT
+        ===================================================== */
+
+        .logout {
+            margin-top: auto;
+        }
+
+        .logout .menu-item {
+            color: #ffdddd;
+        }
+
+        .logout .menu-item:hover {
+            background: rgba(255,80,80,0.12);
+            color: white;
+        }
+
+
+        /* =====================================================
+           MAIN CONTENT
+        ===================================================== */
+
+        .main-content {
+            margin-left: 245px;
+
+            width: calc(100% - 245px);
+
+            padding: 22px 30px 40px;
+        }
+
+
+        /* =====================================================
+           TOPBAR
+        ===================================================== */
+
+        .topbar {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 22px;
+
+            animation: fadeDown 0.6s ease;
+        }
+
+        .search-box {
+            width: 360px;
+
+            height: 43px;
+
+            background: white;
+
+            border-radius: 22px;
+
+            display: flex;
+
+            align-items: center;
+
+            padding: 0 17px;
+
+            gap: 10px;
+
+            box-shadow:
+                0 4px 15px rgba(0,0,0,0.06);
+
+            border: 1px solid #edf0f5;
+        }
+
+        .search-box span {
+            font-size: 17px;
+        }
+
+        .search-box input {
+            border: none;
+            outline: none;
+            width: 100%;
+
+            font-size: 13px;
+            color: #444;
+        }
+
+        .search-box input::placeholder {
+            color: #999;
+        }
+
+
+        /* =====================================================
+           USER
+        ===================================================== */
+
+        .user-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .notification {
+            width: 40px;
+            height: 40px;
+
+            background: white;
+
+            border-radius: 50%;
+
+            display: flex;
+
+            justify-content: center;
+            align-items: center;
+
+            box-shadow:
+                0 4px 15px rgba(0,0,0,0.06);
+
+            cursor: pointer;
+
+            transition: 0.25s;
+        }
+
+        .notification:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 7px 18px rgba(0,0,0,0.1);
+        }
+
+        .user-profile {
+            background: white;
+
+            padding: 7px 14px 7px 7px;
+
+            border-radius: 25px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 9px;
+
+            box-shadow:
+                0 4px 15px rgba(0,0,0,0.06);
+        }
+
+        .user-avatar {
+            width: 35px;
+            height: 35px;
+
+            border-radius: 50%;
+
+            background: #123a91;
+
+            color: white;
+
+            display: flex;
+
+            justify-content: center;
+            align-items: center;
+
+            font-size: 14px;
+
+            font-weight: bold;
+        }
+
+        .user-info {
+            line-height: 1.2;
+        }
+
+        .user-name {
+            font-size: 13px;
+            font-weight: 700;
+            color: #222;
+        }
+
+        .user-role {
+            font-size: 10px;
+            color: #888;
+            margin-top: 3px;
+        }
+
+
+        /* =====================================================
+           WELCOME BANNER
+        ===================================================== */
+
+        .welcome-banner {
+            min-height: 190px;
+
+            border-radius: 18px;
+
+            background:
+                linear-gradient(
+                    110deg,
+                    #123a91,
+                    #07549a 60%,
+                    #0c67b7
+                );
+
+            position: relative;
+
+            overflow: hidden;
+
+            padding: 35px 42px;
+
+            color: white;
+
+            display: flex;
+
+            align-items: center;
+
+            box-shadow:
+                0 12px 30px rgba(18,58,145,0.2);
+
+            animation: slideUp 0.7s ease;
+        }
+
+        .welcome-content {
+            position: relative;
+            z-index: 3;
+            max-width: 650px;
+        }
+
+        .welcome-date {
+            font-size: 11px;
+            opacity: 0.75;
+            margin-bottom: 10px;
+        }
+
+        .welcome-title {
+            font-size: 31px;
+            font-weight: 700;
+            margin-bottom: 9px;
+        }
+
+        .welcome-description {
+            font-size: 13px;
+            color: rgba(255,255,255,0.85);
+            line-height: 1.6;
+            max-width: 530px;
+        }
+
+        .welcome-tag {
+            display: inline-block;
+
+            margin-top: 17px;
+
+            padding: 7px 13px;
+
+            background: rgba(255,255,255,0.12);
+
+            border: 1px solid rgba(255,255,255,0.2);
+
+            border-radius: 20px;
+
+            font-size: 11px;
+        }
+
+
+        /* =====================================================
+           BANNER DECORATION
+        ===================================================== */
+
+        .circle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.07);
+        }
+
+        .circle-one {
+            width: 230px;
+            height: 230px;
+            right: 100px;
+            top: -100px;
+        }
+
+        .circle-two {
+            width: 150px;
+            height: 150px;
+            right: 20px;
+            bottom: -70px;
+        }
+
+        .campus-illustration {
+            position: absolute;
+
+            right: 55px;
+
+            bottom: 12px;
+
+            font-size: 105px;
+
+            opacity: 0.9;
+
+            animation:
+                floating 3s ease-in-out infinite;
+
+            z-index: 2;
+        }
+
+
+        /* =====================================================
+           SECTION TITLE
+        ===================================================== */
+
+        .section-header {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin: 27px 0 15px;
+        }
+
+        .section-header h2 {
+            font-size: 19px;
+            color: #1e2733;
+        }
+
+        .section-header span {
+            font-size: 11px;
+            color: #777;
+        }
+
+
+        /* =====================================================
+           MAIN CAMPUS CARDS
+        ===================================================== */
+
+        .campus-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 16px;
+        }
+
+        .campus-card {
+            background: white;
+
+            border-radius: 15px;
+
+            padding: 21px;
+
+            min-height: 175px;
+
+            border: 1px solid #edf0f5;
+
+            position: relative;
+
+            overflow: hidden;
+
+            transition:
+                transform 0.3s ease,
+                box-shadow 0.3s ease,
+                border-color 0.3s ease;
+
+            animation:
+                cardAppear 0.7s ease both;
+        }
+
+        .campus-card:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .campus-card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .campus-card:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .campus-card:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+        .campus-card:hover {
+            transform: translateY(-7px);
+
+            box-shadow:
+                0 15px 30px rgba(0,0,0,0.09);
+
+            border-color: #d5e1f5;
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+
+            border-radius: 13px;
+
+            background: #edf4ff;
+
+            display: flex;
+
+            justify-content: center;
+            align-items: center;
+
+            font-size: 24px;
+
+            margin-bottom: 15px;
+
+            transition: 0.3s;
+        }
+
+        .campus-card:hover .card-icon {
+            transform:
+                scale(1.1)
+                rotate(-4deg);
+
+            background: #dfeaff;
+        }
+
+        .campus-card h3 {
+            font-size: 15px;
+            margin-bottom: 7px;
+            color: #202a36;
+        }
+
+        .campus-card p {
+            font-size: 11px;
+
+            line-height: 1.55;
+
+            color: #7a8491;
+
+            margin-bottom: 14px;
+        }
+
+        .card-link {
+            font-size: 11px;
+
+            font-weight: 600;
+
+            color: #123a91;
+
+            transition: 0.2s;
+        }
+
+        .campus-card:hover .card-link {
+            letter-spacing: 0.4px;
+        }
+
+
+        /* =====================================================
+           SEARCH + NAVIGATION LARGE CARDS
+        ===================================================== */
+
+        .action-grid {
+            display: grid;
+
+            grid-template-columns:
+                1.5fr 1fr;
+
+            gap: 16px;
+        }
+
+        .action-card {
+            min-height: 150px;
+
+            border-radius: 15px;
+
+            padding: 25px;
+
+            position: relative;
+
+            overflow: hidden;
+
+            color: white;
+
+            transition: 0.3s;
+
+            animation:
+                slideUp 0.8s ease;
+        }
+
+        .action-card:hover {
+            transform: translateY(-5px);
+
+            box-shadow:
+                0 15px 30px rgba(0,0,0,0.12);
+        }
+
+        .search-action {
+            background:
+                linear-gradient(
+                    120deg,
+                    #123a91,
+                    #07549a
+                );
+        }
+
+        .navigation-action {
+            background:
+                linear-gradient(
+                    120deg,
+                    #087c87,
+                    #075d75
+                );
+        }
+
+        .action-icon {
+            font-size: 28px;
+            margin-bottom: 12px;
+        }
+
+        .action-card h3 {
+            font-size: 18px;
+            margin-bottom: 7px;
+        }
+
+        .action-card p {
+            font-size: 11px;
+
+            opacity: 0.85;
+
+            line-height: 1.5;
+
+            max-width: 500px;
+        }
+
+        .action-btn {
+            position: absolute;
+
+            right: 23px;
+
+            bottom: 22px;
+
+            background: white;
+
+            color: #123a91;
+
+            padding: 8px 15px;
+
+            border-radius: 20px;
+
+            font-size: 11px;
+
+            font-weight: 600;
+
+            transition: 0.25s;
+        }
+
+        .action-btn:hover {
+            transform: scale(1.05);
+
+            box-shadow:
+                0 5px 12px rgba(0,0,0,0.15);
+        }
+
+
+        /* =====================================================
+           BOTTOM INFO
+        ===================================================== */
+
+        .info-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 15px;
+
+            margin-top: 16px;
+        }
+
+        .info-card {
+            background: white;
+
+            border-radius: 13px;
+
+            padding: 18px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 13px;
+
+            border: 1px solid #edf0f5;
+
+            transition: 0.25s;
+        }
+
+        .info-card:hover {
+            transform: translateY(-3px);
+
+            box-shadow:
+                0 8px 20px rgba(0,0,0,0.07);
+        }
+
+        .info-icon {
+            width: 42px;
+            height: 42px;
+
+            background: #edf4ff;
+
+            border-radius: 11px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            font-size: 20px;
+        }
+
+        .info-card h4 {
+            font-size: 13px;
+            margin-bottom: 3px;
+        }
+
+        .info-card p {
+            font-size: 10px;
+            color: #888;
+        }
+
+
+        /* =====================================================
+           FOOTER
+        ===================================================== */
+
+        .footer {
+            text-align: center;
+
+            padding: 28px 0 5px;
+
+            color: #9aa0a8;
+
+            font-size: 10px;
+        }
+
+
+        /* =====================================================
+           ANIMATIONS
+        ===================================================== */
+
+        @keyframes fadeDown {
+
+            from {
+                opacity: 0;
+                transform: translateY(-15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUp {
+
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes cardAppear {
+
+            from {
+                opacity: 0;
+                transform: translateY(25px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes floating {
+
+            0%, 100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+
+
+        /* =====================================================
+           TABLET
+        ===================================================== */
+
+        @media (max-width: 1100px) {
+
+            .sidebar {
+                width: 210px;
+            }
+
+            .main-content {
+                margin-left: 210px;
+                width: calc(100% - 210px);
+            }
+
+            .campus-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .campus-illustration {
+                right: 25px;
+                font-size: 85px;
+            }
+        }
+
+
+        /* =====================================================
+           MOBILE
+        ===================================================== */
+
+        @media (max-width: 800px) {
+
+            .sidebar {
+                width: 70px;
+                padding: 18px 9px;
+            }
+
+            .logo-title,
+            .logo-subtitle,
+            .menu-title,
+            .menu-text {
+                display: none;
+            }
+
+            .logo-icon {
+                width: 48px;
+                height: 48px;
+                font-size: 25px;
+            }
+
+            .menu-item {
+                justify-content: center;
+                padding: 12px 5px;
+            }
+
+            .main-content {
+                margin-left: 70px;
+                width: calc(100% - 70px);
+                padding: 18px;
+            }
+
+            .topbar {
+                gap: 10px;
+            }
+
+            .search-box {
+                width: 100%;
+            }
+
+            .user-info {
+                display: none;
+            }
+
+            .welcome-banner {
+                padding: 28px;
+                min-height: 210px;
+            }
+
+            .welcome-title {
+                font-size: 25px;
+            }
+
+            .campus-illustration {
+                opacity: 0.2;
+                right: 15px;
+            }
+
+            .campus-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .action-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+
+        /* =====================================================
+           SMALL MOBILE
+        ===================================================== */
+
+        @media (max-width: 500px) {
+
+            .campus-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .welcome-title {
+                font-size: 22px;
+            }
+
+            .welcome-description {
+                font-size: 11px;
+            }
+
+            .campus-illustration {
+                display: none;
+            }
+
+            .search-box {
+                height: 39px;
+            }
+
+            .notification {
+                width: 36px;
+                height: 36px;
+            }
+
+            .user-avatar {
+                width: 34px;
+                height: 34px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="dashboard-container">
+
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside class="sidebar">
+
+
+        <div class="logo-box">
+
+            <div class="logo-icon">
+                🏫
+            </div>
+
+            <div class="logo-title">
+                SMART CAMPUS
+            </div>
+
+            <div class="logo-subtitle">
+                VIT PUNE
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             SIDEBAR MENU
+        ================================================== -->
+
+        <div class="menu">
+
+            <div class="menu-title">
+                MAIN MENU
+            </div>
+
+
+            <!-- DASHBOARD = HOME FOR LOGGED-IN USER -->
+
+            <a href="dashboard.html"
+               class="menu-item active">
+
+                <span class="menu-icon">▦</span>
+
+                <span class="menu-text">
+                    Dashboard
+                </span>
+
+            </a>
+
+
+            <a href="locations.html"
+               class="menu-item">
+
+                <span class="menu-icon">📍</span>
+
+                <span class="menu-text">
+                    Location List
+                </span>
+
+            </a>
+
+
+            <a href="faculty.html"
+               class="menu-item">
+
+                <span class="menu-icon">👨‍🏫</span>
+
+                <span class="menu-text">
+                    Faculty List
+                </span>
+
+            </a>
+
+
+            <a href="departments.html"
+               class="menu-item">
+
+                <span class="menu-icon">🎓</span>
+
+                <span class="menu-text">
+                    Department List
+                </span>
+
+            </a>
+
+
+            <a href="navigation.html"
+               class="menu-item">
+
+                <span class="menu-icon">🧭</span>
+
+                <span class="menu-text">
+                    Navigation
+                </span>
+
+            </a>
+
+        </div>
+
+
+        <!-- =================================================
+             LOGOUT
+        ================================================== -->
+
+        <div class="logout">
+
+            <a href="#"
+               onclick="logoutUser(); return false;"
+               class="menu-item">
+
+                <span class="menu-icon">🚪</span>
+
+                <span class="menu-text">
+                    Logout
+                </span>
+
+            </a>
+
+        </div>
+
+
+    </aside>
+
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <main class="main-content">
+
+
+        <!-- =================================================
+             TOP BAR
+        ================================================== -->
+
+        <div class="topbar">
+
+
+            <div class="search-box">
+
+                <span>🔍</span>
+
+                <input
+                    type="text"
+                    placeholder="Search campus..."
+                    onkeydown="quickSearch(event)"
+                >
+
+            </div>
+
+
+            <div class="user-area">
+
+
+                <div class="notification">
+                    🔔
+                </div>
+
+
+                <div class="user-profile">
+
+
+                    <div class="user-avatar"
+                         id="userAvatar">
+
+                        S
+
+                    </div>
+
+
+                    <div class="user-info">
+
+                        <div class="user-name"
+                             id="topUserName">
+
+                            Student
+
+                        </div>
+
+                        <div class="user-role">
+
+                            Student
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =================================================
+             WELCOME BANNER
+        ================================================== -->
+
+        <section class="welcome-banner">
+
+
+            <div class="circle circle-one"></div>
+
+            <div class="circle circle-two"></div>
+
+
+            <div class="welcome-content">
+
+
+                <div class="welcome-date"
+                     id="currentDate">
+
+                    Welcome to VIT Pune
+
+                </div>
+
+
+                <h1 class="welcome-title">
+
+                    Welcome back,
+
+                    <span id="welcomeUser">
+                        Student
+                    </span>
+
+                   ! 👋
+
+                </h1>
+
+
+                <p class="welcome-description">
+
+                    Find classrooms, laboratories, faculty,
+                    departments and buildings across your
+                    campus quickly and easily.
+
+                </p>
+
+
+                <div class="welcome-tag">
+
+                    🎓 Smart Campus Navigator
+
+                </div>
+
+
+            </div>
+
+
+            <div class="campus-illustration">
+
+                🎓
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =================================================
+             QUICK ACCESS
+        ================================================== -->
+
+        <div class="section-header">
+
+            <h2>
+                Quick Campus Access
+            </h2>
+
+            <span>
+                Explore your campus
+            </span>
+
+        </div>
+
+
+        <div class="campus-grid">
+
+
+            <!-- LOCATION -->
+
+            <a href="search.html?type=location"
+               class="campus-card">
+
+                <div class="card-icon">
+                    📍
+                </div>
+
+                <h3>
+                    Location Finder
+                </h3>
+
+                <p>
+                    Find classrooms, laboratories,
+                    toilets and other campus locations.
+                </p>
+
+                <span class="card-link">
+                    Find Location →
+                </span>
+
+            </a>
+
+
+            <!-- FACULTY -->
+
+            <a href="search.html?type=faculty"
+               class="campus-card">
+
+                <div class="card-icon">
+                    👨‍🏫
+                </div>
+
+                <h3>
+                    Faculty Finder
+                </h3>
+
+                <p>
+                    Find faculty members, cabins,
+                    departments and contact details.
+                </p>
+
+                <span class="card-link">
+                    Find Faculty →
+                </span>
+
+            </a>
+
+
+            <!-- DEPARTMENT -->
+
+            <a href="search.html?type=department"
+               class="campus-card">
+
+                <div class="card-icon">
+                    🏢
+                </div>
+
+                <h3>
+                    Department Finder
+                </h3>
+
+                <p>
+                    Explore departments, offices
+                    and important department details.
+                </p>
+
+                <span class="card-link">
+                    Find Department →
+                </span>
+
+            </a>
+
+
+            <!-- BUILDING -->
+
+            <a href="buildings.html"
+               class="campus-card">
+
+                <div class="card-icon">
+                    🏫
+                </div>
+
+                <h3>
+                    Building Explorer
+                </h3>
+
+                <p>
+                    Explore buildings, floors
+                    and available campus facilities.
+                </p>
+
+                <span class="card-link">
+                    Explore Building →
+                </span>
+
+            </a>
+
+
+        </div>
+
+
+
+        <!-- =================================================
+             MAIN ACTIONS
+        ================================================== -->
+
+        <div class="section-header">
+
+            <h2>
+                Smart Campus Tools
+            </h2>
+
+            <span>
+                Find what you need
+            </span>
+
+        </div>
+
+
+        <div class="action-grid">
+
+
+            <!-- SEARCH -->
+
+            <div class="action-card search-action">
+
+                <div class="action-icon">
+                    🔍
+                </div>
+
+                <h3>
+                    Search Your Campus
+                </h3>
+
+                <p>
+                    Search locations, faculty,
+                    departments and buildings
+                    from one place.
+                </p>
+
+
+                <a href="search.html"
+                   class="action-btn">
+
+                    Search Campus →
+
+                </a>
+
+            </div>
+
+
+            <!-- NAVIGATION -->
+
+            <div class="action-card navigation-action">
+
+                <div class="action-icon">
+                    🧭
+                </div>
+
+                <h3>
+                    Smart Navigation
+                </h3>
+
+                <p>
+                    Find your destination
+                    and explore the campus route.
+                </p>
+
+
+                <a href="navigation.html"
+                   class="action-btn">
+
+                    Navigate →
+
+                </a>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =================================================
+             INFO CARDS
+        ================================================== -->
+
+        <div class="info-grid">
+
+
+            <div class="info-card">
+
+                <div class="info-icon">
+                    ⚡
+                </div>
+
+                <div>
+
+                    <h4>
+                        Quick Search
+                    </h4>
+
+                    <p>
+                        Find campus information instantly
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="info-card">
+
+                <div class="info-icon">
+                    🎓
+                </div>
+
+                <div>
+
+                    <h4>
+                        Student Friendly
+                    </h4>
+
+                    <p>
+                        Designed for students and freshers
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="info-card">
+
+                <div class="info-icon">
+                    🗺️
+                </div>
+
+                <div>
+
+                    <h4>
+                        Easy Navigation
+                    </h4>
+
+                    <p>
+                        Find your campus destination easily
+                    </p>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =================================================
+             FOOTER
+        ================================================== -->
+
+        <div class="footer">
+
+            © 2026 Smart Campus Navigator
+            · Vishwakarma Institute of Technology, Pune
+
+        </div>
+
+
+    </main>
+
+</div>
+
+
+<!-- =====================================================
+     AUTHENTICATION
+====================================================== -->
+
+<script src="js/auth.js"></script>
+
+
+<script>
+
+    /* =====================================================
+       LOGIN PROTECTION
+    ===================================================== */
+
+    if(typeof checkLogin === "function")
+    {
+        checkLogin();
+    }
+
+
+    /* =====================================================
+       LOAD USER NAME
+    ===================================================== */
+
+    const loggedInUserName =
+        localStorage.getItem("loggedInUserName");
+
+
+    if(loggedInUserName)
+    {
+        document.getElementById("welcomeUser")
+            .innerText = loggedInUserName;
+
+        document.getElementById("topUserName")
+            .innerText = loggedInUserName;
+
+
+        const firstLetter =
+            loggedInUserName
+                .charAt(0)
+                .toUpperCase();
+
+
+        document.getElementById("userAvatar")
+            .innerText = firstLetter;
+    }
+
+
+    /* =====================================================
+       CURRENT DATE
+    ===================================================== */
+
+    const dateElement =
+        document.getElementById("currentDate");
+
+
+    const today =
+        new Date();
+
+
+    const options =
+    {
+        month: "long",
+        day: "numeric",
+        year: "numeric"
+    };
+
+
+    dateElement.innerText =
+        today.toLocaleDateString(
+            "en-US",
+            options
+        );
+
+
+    /* =====================================================
+       QUICK SEARCH
+    ===================================================== */
+
+    function quickSearch(event)
+    {
+        if(event.key === "Enter")
+        {
+            const value =
+                event.target.value.trim();
+
+
+            if(value !== "")
+            {
+                localStorage.setItem(
+                    "dashboardSearch",
+                    value
+                );
+
+
+                window.location.href =
+                    "search.html";
+            }
+        }
+    }
+
+
+    /* =====================================================
+       LOGOUT
+       Uses common auth.js logout()
+    ===================================================== */
+
+    function logoutUser()
+    {
+        if(typeof logout === "function")
+        {
+            logout();
+        }
+        else
+        {
+            localStorage.removeItem(
+                "isLoggedIn"
+            );
+
+            localStorage.removeItem(
+                "loggedInUserName"
+            );
+
+            window.location.replace(
+                "login.html"
+            );
+        }
+    }
+
+</script>
+
+
+</body>
+
+</html>

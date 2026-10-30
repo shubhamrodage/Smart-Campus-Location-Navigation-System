@@ -1,0 +1,1873 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Campus Navigation | Smart Campus Navigator</title>
+
+<style>
+
+/* ============================= */
+/* RESET */
+/* ============================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f4f6fa;
+    color: #222;
+}
+
+/* ============================= */
+/* NAVBAR */
+/* ============================= */
+
+.navbar {
+    width: 100%;
+    min-height: 70px;
+
+    background: linear-gradient(
+        135deg,
+        #123a91,
+        #07549a,
+        #0c67b7
+    );
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 7%;
+
+    box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+}
+
+.logo {
+    color: white;
+    font-size: 23px;
+    font-weight: 700;
+}
+
+.navbar nav {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.navbar nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.navbar nav a:hover {
+    opacity: 0.8;
+}
+
+.logout-btn {
+    border: none;
+    background: white;
+    color: #123a91;
+
+    padding: 9px 18px;
+
+    border-radius: 8px;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+.logout-btn:hover {
+    transform: translateY(-2px);
+}
+
+/* ============================= */
+/* MAIN */
+/* ============================= */
+
+.search-container {
+
+    width: 90%;
+    max-width: 1100px;
+
+    margin: 40px auto 60px;
+}
+
+/* ============================= */
+/* BACK */
+/* ============================= */
+
+.search-back {
+    margin-bottom: 20px;
+}
+
+.search-back a {
+    color: #123a91;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.search-back a:hover {
+    text-decoration: underline;
+}
+
+/* ============================= */
+/* HEADING */
+/* ============================= */
+
+.search-heading {
+
+    text-align: center;
+
+    margin-bottom: 35px;
+}
+
+.search-main-icon {
+    font-size: 48px;
+    margin-bottom: 10px;
+}
+
+.search-heading h1 {
+
+    color: #123a91;
+
+    font-size: 34px;
+
+    margin-bottom: 8px;
+}
+
+.search-heading p {
+
+    color: #666;
+
+    font-size: 16px;
+}
+
+/* ============================= */
+/* MAIN WHITE AREA */
+/* ============================= */
+
+.campus-search-area {
+
+    background: white;
+
+    border-radius: 20px;
+
+    padding: 35px;
+
+    box-shadow:
+        0 10px 30px rgba(18,58,145,0.08);
+
+    border: 1px solid #e4e8f0;
+}
+
+/* ============================= */
+/* DESTINATION HEADER */
+/* ============================= */
+
+.campus-search-header {
+
+    text-align: center;
+
+    padding-bottom: 25px;
+
+    border-bottom: 1px solid #e8ebf1;
+
+    margin-bottom: 25px;
+}
+
+.campus-search-icon {
+
+    font-size: 42px;
+
+    margin-bottom: 8px;
+}
+
+.campus-search-header h2 {
+
+    color: #123a91;
+
+    font-size: 27px;
+
+    margin-bottom: 7px;
+}
+
+.campus-search-header p {
+
+    color: #666;
+
+    font-size: 15px;
+}
+
+/* ============================= */
+/* DESTINATION CARD */
+/* ============================= */
+
+.search-result-card {
+
+    display: flex;
+
+    gap: 20px;
+
+    background: #f8faff;
+
+    border: 1px solid #dfe6f2;
+
+    border-radius: 16px;
+
+    padding: 25px;
+
+    margin-bottom: 30px;
+
+    transition: 0.3s;
+}
+
+.search-result-card:hover {
+
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 8px 22px rgba(18,58,145,0.10);
+}
+
+.search-result-icon {
+
+    width: 60px;
+    height: 60px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #eaf1ff;
+
+    border-radius: 14px;
+
+    font-size: 30px;
+
+    flex-shrink: 0;
+}
+
+.search-result-content {
+
+    flex: 1;
+}
+
+.search-result-type {
+
+    display: inline-block;
+
+    background: #123a91;
+
+    color: white;
+
+    padding: 5px 11px;
+
+    border-radius: 20px;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    margin-bottom: 8px;
+}
+
+.search-result-content h3 {
+
+    font-size: 23px;
+
+    color: #222;
+
+    margin-bottom: 12px;
+}
+
+.search-result-content p {
+
+    margin: 6px 0;
+
+    color: #555;
+
+    font-size: 14px;
+}
+
+.search-result-content strong {
+
+    color: #123a91;
+}
+
+/* ============================= */
+/* ROUTE CARD */
+/* ============================= */
+
+.navigation-route-card {
+
+    margin-top: 25px;
+
+    padding: 30px;
+
+    background: white;
+
+    border-radius: 18px;
+
+    border: 1px solid #e0e6f0;
+
+    box-shadow:
+        0 8px 25px rgba(18,58,145,0.08);
+}
+
+/* ============================= */
+/* ROUTE HEADER */
+/* ============================= */
+
+.navigation-route-header {
+
+    text-align: center;
+
+    margin-bottom: 30px;
+}
+
+.navigation-route-header h2 {
+
+    color: #123a91;
+
+    font-size: 25px;
+
+    margin-bottom: 8px;
+}
+
+.navigation-route-header p {
+
+    color: #666;
+
+    font-size: 14px;
+}
+
+/* ============================= */
+/* ROUTE WRAPPER */
+/* ============================= */
+
+.route-wrapper {
+
+    max-width: 560px;
+
+    margin: auto;
+}
+
+/* ============================= */
+/* ROUTE STEP */
+/* ============================= */
+
+.route-step {
+
+    background: white;
+
+    border: 1px solid #dfe5ef;
+
+    border-radius: 15px;
+
+    padding: 22px;
+
+    text-align: center;
+
+    box-shadow:
+        0 5px 18px rgba(0,0,0,0.05);
+
+    transition: 0.3s;
+}
+
+.route-step:hover {
+
+    transform: translateY(-4px);
+
+    border-color: #123a91;
+
+    box-shadow:
+        0 10px 25px rgba(18,58,145,0.12);
+}
+
+.route-step.destination {
+
+    border: 2px solid #123a91;
+
+    background: linear-gradient(
+        135deg,
+        #ffffff,
+        #f1f6ff
+    );
+}
+
+.route-icon {
+
+    font-size: 38px;
+
+    margin-bottom: 8px;
+}
+
+.route-step h3 {
+
+    color: #222;
+
+    font-size: 18px;
+
+    margin-bottom: 7px;
+}
+
+.route-step p {
+
+    color: #666;
+
+    font-size: 14px;
+}
+
+/* ============================= */
+/* ARROW */
+/* ============================= */
+
+.route-arrow {
+
+    text-align: center;
+
+    font-size: 28px;
+
+    color: #123a91;
+
+    margin: 10px 0;
+
+    font-weight: bold;
+
+    animation: arrowMove 1.5s infinite;
+}
+
+@keyframes arrowMove {
+
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(5px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
+/* ============================= */
+/* STATUS */
+/* ============================= */
+
+.navigation-status {
+
+    margin-top: 28px;
+
+    padding: 18px 20px;
+
+    border-radius: 12px;
+
+    background: #f1f6ff;
+
+    border: 1px solid #d6e3ff;
+
+    text-align: center;
+}
+
+.navigation-status strong {
+
+    color: #123a91;
+
+    font-size: 16px;
+}
+
+.navigation-status p {
+
+    color: #666;
+
+    font-size: 14px;
+
+    margin-top: 7px;
+}
+
+/* ============================= */
+/* BUTTONS */
+/* ============================= */
+
+.navigation-buttons {
+
+    display: flex;
+
+    justify-content: center;
+
+    gap: 12px;
+
+    flex-wrap: wrap;
+
+    margin-top: 30px;
+}
+
+.search-result-btn {
+
+    display: inline-block;
+
+    background: linear-gradient(
+        135deg,
+        #123a91,
+        #07549a
+    );
+
+    color: white;
+
+    text-decoration: none;
+
+    padding: 12px 20px;
+
+    border-radius: 9px;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    transition: 0.3s;
+
+    box-shadow:
+        0 5px 15px rgba(18,58,145,0.18);
+}
+
+.search-result-btn:hover {
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 20px rgba(18,58,145,0.25);
+}
+
+/* ============================= */
+/* LOADING */
+/* ============================= */
+
+.search-loading {
+
+    text-align: center;
+
+    padding: 60px 20px;
+
+    color: #123a91;
+}
+
+.search-loading h3 {
+
+    margin-bottom: 8px;
+}
+
+.search-loading p {
+
+    color: #666;
+}
+
+/* ============================= */
+/* ERROR */
+/* ============================= */
+
+.search-no-result {
+
+    text-align: center;
+
+    padding: 50px 20px;
+}
+
+.search-no-result div {
+
+    font-size: 45px;
+
+    margin-bottom: 10px;
+}
+
+.search-no-result h3 {
+
+    color: #123a91;
+
+    margin-bottom: 8px;
+}
+
+.search-no-result p {
+
+    color: #666;
+
+    margin-bottom: 20px;
+}
+
+/* ============================= */
+/* FOOTER */
+/* ============================= */
+
+footer {
+
+    background: #123a91;
+
+    color: white;
+
+    text-align: center;
+
+    padding: 28px 20px;
+
+    margin-top: 60px;
+}
+
+footer h3 {
+
+    margin-bottom: 7px;
+
+    font-size: 18px;
+}
+
+footer p {
+
+    font-size: 14px;
+
+    opacity: 0.85;
+}
+
+/* ============================= */
+/* MOBILE */
+/* ============================= */
+
+@media (max-width: 700px) {
+
+    .navbar {
+
+        padding: 15px 5%;
+
+        flex-direction: column;
+
+        gap: 15px;
+    }
+
+    .navbar nav {
+
+        gap: 15px;
+    }
+
+    .logo {
+
+        font-size: 20px;
+    }
+
+    .search-container {
+
+        width: 94%;
+
+        margin-top: 25px;
+    }
+
+    .campus-search-area {
+
+        padding: 20px;
+    }
+
+    .search-heading h1 {
+
+        font-size: 28px;
+    }
+
+    .search-result-card {
+
+        flex-direction: column;
+
+        text-align: center;
+    }
+
+    .search-result-icon {
+
+        margin: auto;
+    }
+
+    .navigation-route-card {
+
+        padding: 20px 15px;
+    }
+
+    .navigation-route-header h2 {
+
+        font-size: 22px;
+    }
+
+    .navigation-buttons {
+
+        flex-direction: column;
+    }
+
+    .search-result-btn {
+
+        text-align: center;
+
+        width: 100%;
+    }
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- ============================= -->
+<!-- NAVBAR -->
+<!-- ============================= -->
+
+<header class="navbar">
+
+    <div class="logo">
+        🏫 Smart Campus
+    </div>
+
+    <nav>
+
+        <a href="dashboard.html">
+            Dashboard
+        </a>
+
+        <a href="index.html">
+            Home
+        </a>
+
+        <button class="logout-btn" onclick="logout()">
+            Logout
+        </button>
+
+    </nav>
+
+</header>
+
+
+<!-- ============================= -->
+<!-- MAIN -->
+<!-- ============================= -->
+
+<main class="search-container">
+
+
+    <div class="search-back">
+
+        <a href="javascript:history.back()">
+            ← Back
+        </a>
+
+    </div>
+
+
+    <!-- HEADING -->
+
+    <section class="search-heading">
+
+        <div class="search-main-icon">
+            🧭
+        </div>
+
+        <h1>
+            Campus Navigation
+        </h1>
+
+        <p>
+            Find your destination inside the campus.
+        </p>
+
+    </section>
+
+
+    <!-- ============================= -->
+    <!-- CONTENT -->
+    <!-- ============================= -->
+
+    <section class="campus-search-area">
+
+
+        <!-- LOADING -->
+
+        <div id="navigationLoading" class="search-loading">
+
+            <h3>
+                🔄 Loading destination...
+            </h3>
+
+            <p>
+                Please wait.
+            </p>
+
+        </div>
+
+
+        <!-- ============================= -->
+        <!-- NAVIGATION CONTENT -->
+        <!-- ============================= -->
+
+        <div id="navigationContent" style="display:none;">
+
+
+            <!-- DESTINATION HEADER -->
+
+            <div class="campus-search-header">
+
+                <div class="campus-search-icon">
+                    🎯
+                </div>
+
+                <h2 id="locationName">
+                    Destination
+                </h2>
+
+                <p id="locationDescription">
+                    Campus destination
+                </p>
+
+            </div>
+
+
+            <!-- DESTINATION DETAILS -->
+
+            <div class="search-result-card">
+
+                <div class="search-result-icon">
+                    📍
+                </div>
+
+                <div class="search-result-content">
+
+                    <span
+                        class="search-result-type"
+                        id="destinationType">
+                        DESTINATION
+                    </span>
+
+                    <h3 id="locationTitle">
+                        Destination
+                    </h3>
+
+                    <p>
+                        <strong>Building:</strong>
+                        <span id="locationBuilding">-</span>
+                    </p>
+
+                    <p>
+                        <strong>Floor:</strong>
+                        <span id="locationFloor">-</span>
+                    </p>
+
+                    <p>
+                        <strong>Room:</strong>
+                        <span id="locationRoom">-</span>
+                    </p>
+
+                    <p>
+                        <strong>Department:</strong>
+                        <span id="locationDepartment">-</span>
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- ============================= -->
+            <!-- ROUTE -->
+            <!-- ============================= -->
+
+            <div class="navigation-route-card">
+
+
+                <div class="navigation-route-header">
+
+                    <h2>
+                        🗺️ Campus Route
+                    </h2>
+
+                    <p>
+                        Follow the route to reach your destination.
+                    </p>
+
+                </div>
+
+
+                <div class="route-wrapper">
+
+
+                    <!-- START -->
+
+                    <div class="route-step">
+
+                        <div class="route-icon">
+                            🚶
+                        </div>
+
+                        <h3>
+                            Starting Point
+                        </h3>
+
+                        <p>
+                            Campus Entrance
+                        </p>
+
+                    </div>
+
+
+                    <div class="route-arrow">
+                        ↓
+                    </div>
+
+
+                    <!-- BUILDING -->
+
+                    <div class="route-step">
+
+                        <div class="route-icon">
+                            🏫
+                        </div>
+
+                        <h3>
+                            Building
+                            <span id="routeBuilding">
+                                -
+                            </span>
+                        </h3>
+
+                        <p id="routeBuildingDescription">
+                            Enter the destination building.
+                        </p>
+
+                    </div>
+
+
+                    <div class="route-arrow">
+                        ↓
+                    </div>
+
+
+                    <!-- FLOOR -->
+
+                    <div class="route-step">
+
+                        <div class="route-icon">
+                            🛗
+                        </div>
+
+                        <h3>
+                            Floor
+                            <span id="routeFloor">
+                                -
+                            </span>
+                        </h3>
+
+                        <p>
+                            Go to the required floor.
+                        </p>
+
+                    </div>
+
+
+                    <div class="route-arrow">
+                        ↓
+                    </div>
+
+
+                    <!-- DESTINATION -->
+
+                    <div class="route-step destination">
+
+                        <div class="route-icon">
+                            🎯
+                        </div>
+
+                        <h3 id="routeDestination">
+                            Destination
+                        </h3>
+
+                        <p>
+                            Room:
+                            <strong id="routeRoom">
+                                -
+                            </strong>
+                        </p>
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- STATUS -->
+
+                <div class="navigation-status">
+
+                    <strong>
+                        ✅ Destination Found
+                    </strong>
+
+                    <p>
+                        Follow the building, floor and room information
+                        to reach your destination.
+                    </p>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- BUTTONS -->
+
+            <div class="navigation-buttons">
+
+                <a
+                    id="detailsButton"
+                    href="#"
+                    class="search-result-btn">
+
+                    ← View Details
+
+                </a>
+
+
+                <a
+                    href="search.html"
+                    class="search-result-btn">
+
+                    🔍 Search Again
+
+                </a>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- ============================= -->
+        <!-- ERROR -->
+        <!-- ============================= -->
+
+        <div
+            id="navigationError"
+            class="search-no-result"
+            style="display:none;">
+
+            <div>
+                ⚠️
+            </div>
+
+            <h3>
+                Destination Not Found
+            </h3>
+
+            <p id="errorMessage">
+                The requested destination could not be found.
+            </p>
+
+            <br>
+
+            <a
+                href="search.html"
+                class="search-result-btn">
+
+                ← Back to Search
+
+            </a>
+
+        </div>
+
+
+    </section>
+
+</main>
+
+
+<!-- ============================= -->
+<!-- FOOTER -->
+<!-- ============================= -->
+
+<footer>
+
+    <h3>
+        🏫 Smart Campus Navigator
+    </h3>
+
+    <p>
+        Smart way to explore your campus.
+    </p>
+
+</footer>
+
+
+<script>
+
+/* ============================= */
+/* LOGIN CHECK */
+/* ============================= */
+
+if (typeof checkLogin === "function") {
+
+    checkLogin();
+
+}
+
+
+/* ============================= */
+/* API */
+/* ============================= */
+
+const LOCATION_API =
+    "http://127.0.0.1:8080/api/locations";
+
+const FACULTY_API =
+    "http://127.0.0.1:8080/api/faculty";
+
+const DEPARTMENT_API =
+    "http://127.0.0.1:8080/api/departments";
+
+const BUILDING_API =
+    "http://127.0.0.1:8080/api/buildings";
+
+
+/* ============================= */
+/* URL */
+/* ============================= */
+
+const urlParams =
+    new URLSearchParams(window.location.search);
+
+let navigationType =
+    urlParams.get("type");
+
+const navigationId =
+    urlParams.get("id");
+
+
+if (!navigationType) {
+
+    navigationType = "location";
+
+}
+
+
+/* ============================= */
+/* LOAD NAVIGATION */
+/* ============================= */
+
+async function loadNavigation() {
+
+    const loading =
+        document.getElementById("navigationLoading");
+
+    const error =
+        document.getElementById("navigationError");
+
+    const errorMessage =
+        document.getElementById("errorMessage");
+
+
+    if (!navigationId) {
+
+        loading.style.display = "none";
+
+        errorMessage.textContent =
+            "No destination ID was provided.";
+
+        error.style.display = "block";
+
+        return;
+
+    }
+
+
+    try {
+
+
+        /* ============================= */
+        /* FACULTY */
+        /* ============================= */
+
+        if (navigationType === "faculty") {
+
+            const response =
+                await fetch(FACULTY_API + "?t=" + Date.now());
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Faculty API request failed"
+                );
+
+            }
+
+            const data =
+                await response.json();
+
+            const facultyList =
+                data.faculty || [];
+
+            const faculty =
+                facultyList.find(function(item) {
+
+                    return String(item.id) ===
+                           String(navigationId);
+
+                });
+
+
+            if (!faculty) {
+
+                loading.style.display = "none";
+
+                errorMessage.textContent =
+                    "Faculty member with ID " +
+                    navigationId +
+                    " was not found.";
+
+                error.style.display = "block";
+
+                return;
+
+            }
+
+
+            displayFacultyNavigation(faculty);
+
+            return;
+
+        }
+
+
+        /* ============================= */
+        /* DEPARTMENT */
+        /* ============================= */
+
+        if (navigationType === "department") {
+
+            const response =
+                await fetch(
+                    DEPARTMENT_API + "?t=" + Date.now()
+                );
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Department API request failed"
+                );
+
+            }
+
+            const data =
+                await response.json();
+
+            const departmentList =
+                data.departments || [];
+
+            const department =
+                departmentList.find(function(item) {
+
+                    return String(item.id) ===
+                           String(navigationId);
+
+                });
+
+
+            if (!department) {
+
+                loading.style.display = "none";
+
+                errorMessage.textContent =
+                    "Department with ID " +
+                    navigationId +
+                    " was not found.";
+
+                error.style.display = "block";
+
+                return;
+
+            }
+
+
+            displayDepartmentNavigation(department);
+
+            return;
+
+        }
+
+
+        /* ============================= */
+        /* BUILDING */
+        /* ============================= */
+
+        if (navigationType === "building") {
+
+            const response =
+                await fetch(
+                    BUILDING_API + "?t=" + Date.now()
+                );
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Building API request failed"
+                );
+
+            }
+
+            const data =
+                await response.json();
+
+            const buildingList =
+                data.buildings || [];
+
+            const building =
+                buildingList.find(function(item) {
+
+                    return String(item.id) ===
+                           String(navigationId);
+
+                });
+
+
+            if (!building) {
+
+                loading.style.display = "none";
+
+                errorMessage.textContent =
+                    "Building with ID " +
+                    navigationId +
+                    " was not found.";
+
+                error.style.display = "block";
+
+                return;
+
+            }
+
+
+            displayBuildingNavigation(building);
+
+            return;
+
+        }
+
+
+        /* ============================= */
+        /* LOCATION */
+        /* ============================= */
+
+        if (navigationType === "location") {
+
+            const response =
+                await fetch(
+                    LOCATION_API + "?t=" + Date.now()
+                );
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Location API request failed"
+                );
+
+            }
+
+            const data =
+                await response.json();
+
+            const locations =
+                data.locations || [];
+
+            const location =
+                locations.find(function(item) {
+
+                    return String(item.id) ===
+                           String(navigationId);
+
+                });
+
+
+            if (!location) {
+
+                loading.style.display = "none";
+
+                errorMessage.textContent =
+                    "Location with ID " +
+                    navigationId +
+                    " was not found.";
+
+                error.style.display = "block";
+
+                return;
+
+            }
+
+
+            displayLocationNavigation(location);
+
+            return;
+
+        }
+
+
+        loading.style.display = "none";
+
+        errorMessage.textContent =
+            "Invalid navigation type: " +
+            navigationType;
+
+        error.style.display = "block";
+
+
+    }
+
+    catch (errorObject) {
+
+        console.error(
+            "Navigation Error:",
+            errorObject
+        );
+
+        loading.style.display = "none";
+
+        errorMessage.textContent =
+            "Unable to connect to the C++ backend.";
+
+        error.style.display = "block";
+
+    }
+
+}
+
+
+/* ============================= */
+/* LOCATION */
+/* ============================= */
+
+function displayLocationNavigation(location) {
+
+    document.getElementById(
+        "destinationType"
+    ).textContent = "LOCATION";
+
+
+    document.getElementById(
+        "locationName"
+    ).textContent = location.name;
+
+
+    document.getElementById(
+        "locationTitle"
+    ).textContent = location.name;
+
+
+    document.getElementById(
+        "locationDescription"
+    ).textContent = location.description;
+
+
+    document.getElementById(
+        "locationBuilding"
+    ).textContent = location.building;
+
+
+    document.getElementById(
+        "locationFloor"
+    ).textContent = location.floor;
+
+
+    document.getElementById(
+        "locationRoom"
+    ).textContent = location.room;
+
+
+    document.getElementById(
+        "locationDepartment"
+    ).textContent = location.department;
+
+
+    document.getElementById(
+        "routeBuilding"
+    ).textContent = location.building;
+
+
+    document.getElementById(
+        "routeFloor"
+    ).textContent = location.floor;
+
+
+    document.getElementById(
+        "routeDestination"
+    ).textContent = location.name;
+
+
+    document.getElementById(
+        "routeRoom"
+    ).textContent = location.room;
+
+
+    document.getElementById(
+        "detailsButton"
+    ).href =
+        "location-details.html?id=" +
+        encodeURIComponent(location.id);
+
+
+    document.getElementById(
+        "detailsButton"
+    ).textContent =
+        "← View Location Details";
+
+
+    showNavigation();
+
+}
+
+
+/* ============================= */
+/* FACULTY */
+/* ============================= */
+
+function displayFacultyNavigation(faculty) {
+
+    document.getElementById(
+        "destinationType"
+    ).textContent = "FACULTY";
+
+
+    document.getElementById(
+        "locationName"
+    ).textContent = faculty.name;
+
+
+    document.getElementById(
+        "locationTitle"
+    ).textContent = faculty.name;
+
+
+    document.getElementById(
+        "locationDescription"
+    ).textContent = faculty.subject;
+
+
+    document.getElementById(
+        "locationBuilding"
+    ).textContent = faculty.building;
+
+
+    document.getElementById(
+        "locationFloor"
+    ).textContent = faculty.floor;
+
+
+    document.getElementById(
+        "locationRoom"
+    ).textContent = faculty.room;
+
+
+    document.getElementById(
+        "locationDepartment"
+    ).textContent = faculty.department;
+
+
+    document.getElementById(
+        "routeBuilding"
+    ).textContent = faculty.building;
+
+
+    document.getElementById(
+        "routeFloor"
+    ).textContent = faculty.floor;
+
+
+    document.getElementById(
+        "routeDestination"
+    ).textContent = faculty.name;
+
+
+    document.getElementById(
+        "routeRoom"
+    ).textContent = faculty.room;
+
+
+    document.getElementById(
+        "detailsButton"
+    ).href =
+        "faculty-details.html?id=" +
+        encodeURIComponent(faculty.id);
+
+
+    document.getElementById(
+        "detailsButton"
+    ).textContent =
+        "← View Faculty Details";
+
+
+    showNavigation();
+
+}
+
+
+/* ============================= */
+/* DEPARTMENT */
+/* ============================= */
+
+function displayDepartmentNavigation(department) {
+
+    document.getElementById(
+        "destinationType"
+    ).textContent = "DEPARTMENT";
+
+
+    document.getElementById(
+        "locationName"
+    ).textContent = department.name;
+
+
+    document.getElementById(
+        "locationTitle"
+    ).textContent = department.name;
+
+
+    document.getElementById(
+        "locationDescription"
+    ).textContent =
+        department.description;
+
+
+    document.getElementById(
+        "locationBuilding"
+    ).textContent =
+        department.building;
+
+
+    document.getElementById(
+        "locationFloor"
+    ).textContent =
+        department.floor;
+
+
+    document.getElementById(
+        "locationRoom"
+    ).textContent =
+        "Department Area";
+
+
+    document.getElementById(
+        "locationDepartment"
+    ).textContent =
+        department.shortName;
+
+
+    document.getElementById(
+        "routeBuilding"
+    ).textContent =
+        department.building;
+
+
+    document.getElementById(
+        "routeFloor"
+    ).textContent =
+        department.floor;
+
+
+    document.getElementById(
+        "routeDestination"
+    ).textContent =
+        department.name;
+
+
+    document.getElementById(
+        "routeRoom"
+    ).textContent =
+        "Department Area";
+
+
+    document.getElementById(
+        "detailsButton"
+    ).href =
+        "department-details.html?id=" +
+        encodeURIComponent(department.id);
+
+
+    document.getElementById(
+        "detailsButton"
+    ).textContent =
+        "← View Department Details";
+
+
+    showNavigation();
+
+}
+
+
+/* ============================= */
+/* BUILDING */
+/* ============================= */
+
+function displayBuildingNavigation(building) {
+
+    document.getElementById(
+        "destinationType"
+    ).textContent =
+        "BUILDING";
+
+
+    document.getElementById(
+        "locationName"
+    ).textContent =
+        building.name;
+
+
+    document.getElementById(
+        "locationTitle"
+    ).textContent =
+        building.name;
+
+
+    document.getElementById(
+        "locationDescription"
+    ).textContent =
+        building.description;
+
+
+    document.getElementById(
+        "locationBuilding"
+    ).textContent =
+        building.code;
+
+
+    document.getElementById(
+        "locationFloor"
+    ).textContent =
+        building.floors;
+
+
+    document.getElementById(
+        "locationRoom"
+    ).textContent =
+        "Building";
+
+
+    document.getElementById(
+        "locationDepartment"
+    ).textContent =
+        "Campus Building";
+
+
+    document.getElementById(
+        "routeBuilding"
+    ).textContent =
+        building.code;
+
+
+    document.getElementById(
+        "routeFloor"
+    ).textContent =
+        building.floors;
+
+
+    document.getElementById(
+        "routeDestination"
+    ).textContent =
+        building.name;
+
+
+    document.getElementById(
+        "routeRoom"
+    ).textContent =
+        "Building";
+
+
+    document.getElementById(
+        "routeBuildingDescription"
+    ).textContent =
+        building.description;
+
+
+    document.getElementById(
+        "detailsButton"
+    ).href =
+        "building-details.html?id=" +
+        encodeURIComponent(building.id);
+
+
+    document.getElementById(
+        "detailsButton"
+    ).textContent =
+        "← View Building Details";
+
+
+    showNavigation();
+
+}
+
+
+/* ============================= */
+/* SHOW */
+/* ============================= */
+
+function showNavigation() {
+
+    document.getElementById(
+        "navigationLoading"
+    ).style.display = "none";
+
+
+    document.getElementById(
+        "navigationContent"
+    ).style.display = "block";
+
+}
+
+
+/* ============================= */
+/* LOGOUT */
+/* ============================= */
+
+function logout() {
+
+    localStorage.removeItem(
+        "isLoggedIn"
+    );
+
+    localStorage.removeItem(
+        "loggedInUserName"
+    );
+
+    localStorage.removeItem(
+        "smartCampusUser"
+    );
+
+    alert(
+        "You have been logged out."
+    );
+
+    window.location.href =
+        "login.html";
+
+}
+
+
+/* ============================= */
+/* START */
+/* ============================= */
+
+loadNavigation();
+
+</script>
+
+</body>
+
+</html>

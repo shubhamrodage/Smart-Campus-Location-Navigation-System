@@ -1,0 +1,1744 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Department List - Smart Campus
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
+    <style>
+
+        body
+        {
+            margin: 0;
+            background: #f5f8ff;
+            color: #172554;
+        }
+
+
+        /* =====================================================
+           NAVBAR
+        ===================================================== */
+
+        .department-navbar
+        {
+            height: 72px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 55px;
+
+            background: rgba(255,255,255,0.97);
+
+            border-bottom: 1px solid #e5eaf2;
+
+            box-shadow:
+                0 5px 25px
+                rgba(15,23,42,0.06);
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 1000;
+        }
+
+
+        .department-brand
+        {
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            text-decoration: none;
+        }
+
+
+        .department-brand-icon
+        {
+            width: 43px;
+            height: 43px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 13px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #3157d5,
+                    #1d4ed8
+                );
+
+            color: white;
+
+            font-size: 21px;
+
+            box-shadow:
+                0 7px 18px
+                rgba(37,99,235,0.22);
+        }
+
+
+        .department-brand-text
+        {
+            display: flex;
+
+            flex-direction: column;
+        }
+
+
+        .department-brand-title
+        {
+            font-size: 17px;
+
+            font-weight: 850;
+
+            color: #172554;
+
+            line-height: 1.1;
+        }
+
+
+        .department-brand-subtitle
+        {
+            font-size: 10px;
+
+            font-weight: 700;
+
+            color: #64748b;
+
+            letter-spacing: 1.4px;
+
+            margin-top: 3px;
+        }
+
+
+        .department-nav
+        {
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+        }
+
+
+        .department-nav a
+        {
+            text-decoration: none;
+
+            color: #475569;
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            padding: 10px 15px;
+
+            border-radius: 9px;
+
+            transition: 0.2s;
+        }
+
+
+        .department-nav a:hover
+        {
+            background: #eff6ff;
+
+            color: #2563eb;
+        }
+
+
+        .department-nav .active-nav
+        {
+            background: #eff6ff;
+
+            color: #2563eb;
+        }
+
+
+        .department-logout
+        {
+            border: none;
+
+            background: #172554;
+
+            color: white;
+
+            padding: 10px 18px;
+
+            border-radius: 9px;
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+
+        .department-logout:hover
+        {
+            background: #1d4ed8;
+
+            transform: translateY(-1px);
+        }
+
+
+
+        /* =====================================================
+           MAIN
+        ===================================================== */
+
+        .department-container
+        {
+            max-width: 1250px;
+
+            margin: 0 auto;
+
+            padding:
+                58px 25px
+                75px;
+        }
+
+
+
+        /* =====================================================
+           HEADER
+        ===================================================== */
+
+        .department-header
+        {
+            text-align: center;
+
+            margin-bottom: 45px;
+        }
+
+
+        .department-label
+        {
+            display: inline-block;
+
+            padding: 7px 15px;
+
+            background: #eff6ff;
+
+            border: 1px solid #dbeafe;
+
+            border-radius: 30px;
+
+            color: #2563eb;
+
+            font-size: 11px;
+
+            font-weight: 850;
+
+            letter-spacing: 1.8px;
+
+            margin-bottom: 15px;
+        }
+
+
+        .department-header h1
+        {
+            margin: 0;
+
+            font-size: 42px;
+
+            font-weight: 850;
+
+            color: #172554;
+
+            letter-spacing: -1px;
+        }
+
+
+        .department-header p
+        {
+            margin-top: 12px;
+
+            color: #64748b;
+
+            font-size: 16px;
+        }
+
+
+
+        /* =====================================================
+           RESULT INFO
+        ===================================================== */
+
+        .department-result-info
+        {
+            text-align: center;
+
+            margin-bottom: 42px;
+        }
+
+
+        .department-result-info p
+        {
+            color: #64748b;
+
+            font-size: 13px;
+        }
+
+
+        .department-result-info strong
+        {
+            color: #2563eb;
+
+            font-size: 16px;
+        }
+
+
+
+        /* =====================================================
+           DEPARTMENT GRID
+        ===================================================== */
+
+        .department-grid
+        {
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    auto-fit,
+                    minmax(280px,1fr)
+                );
+
+            gap: 20px;
+        }
+
+
+
+        /* =====================================================
+           DEPARTMENT CARD
+        ===================================================== */
+
+        .department-card
+        {
+            position: relative;
+
+            background: white;
+
+            border: 1px solid #e5eaf2;
+
+            border-radius: 17px;
+
+            padding: 25px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 7px 24px
+                rgba(15,23,42,0.05);
+
+            transition:
+                transform 0.25s ease,
+                box-shadow 0.25s ease,
+                border-color 0.25s ease;
+        }
+
+
+        .department-card.available
+        {
+            cursor: pointer;
+        }
+
+
+        .department-card::before
+        {
+            content: "";
+
+            position: absolute;
+
+            top: 0;
+
+            left: 0;
+
+            right: 0;
+
+            height: 4px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #3157d5,
+                    #60a5fa
+                );
+        }
+
+
+        .department-card.available:hover
+        {
+            transform: translateY(-5px);
+
+            border-color: #bfdbfe;
+
+            box-shadow:
+                0 17px 35px
+                rgba(30,64,175,0.12);
+        }
+
+
+        .department-card-top
+        {
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            margin-bottom: 18px;
+        }
+
+
+        .department-card-icon
+        {
+            width: 50px;
+
+            height: 50px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 13px;
+
+            background: #eff6ff;
+
+            font-size: 23px;
+        }
+
+
+        .department-card-arrow
+        {
+            color: #2563eb;
+
+            font-size: 20px;
+
+            font-weight: 800;
+        }
+
+
+        .department-card h3
+        {
+            margin: 0 0 10px;
+
+            color: #172554;
+
+            font-size: 18px;
+
+            font-weight: 850;
+
+            line-height: 1.4;
+        }
+
+
+        .department-card p
+        {
+            margin: 0 0 16px;
+
+            color: #64748b;
+
+            font-size: 13px;
+
+            line-height: 1.5;
+        }
+
+
+        .department-card-action
+        {
+            color: #2563eb;
+
+            font-size: 11px;
+
+            font-weight: 850;
+
+            letter-spacing: 0.6px;
+        }
+
+
+
+        /* =====================================================
+           COMING SOON
+        ===================================================== */
+
+        .department-card.coming
+        {
+            cursor: default;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #ffffff,
+                    #f8faff
+                );
+
+            border: 1px dashed #cbd5e1;
+        }
+
+
+        .department-card.coming:hover
+        {
+            transform: translateY(-4px);
+
+            border-color: #93c5fd;
+
+            box-shadow:
+                0 12px 25px
+                rgba(37,99,235,0.08);
+        }
+
+
+        .coming-badge
+        {
+            display: inline-block;
+
+            padding: 6px 12px;
+
+            background: #eef2ff;
+
+            color: #3157d5;
+
+            border-radius: 20px;
+
+            font-size: 9px;
+
+            font-weight: 850;
+
+            letter-spacing: 0.8px;
+        }
+
+
+
+        /* =====================================================
+           DEPARTMENT LOCATION
+        ===================================================== */
+
+        .department-section
+        {
+            margin-bottom: 45px;
+        }
+
+
+        .department-section-heading
+        {
+            display: flex;
+
+            align-items: center;
+
+            gap: 15px;
+
+            margin-bottom: 25px;
+        }
+
+
+        .department-section-icon
+        {
+            width: 57px;
+
+            height: 57px;
+
+            flex-shrink: 0;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 16px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #3157d5,
+                    #1d4ed8
+                );
+
+            color: white;
+
+            font-size: 25px;
+
+            box-shadow:
+                0 9px 22px
+                rgba(37,99,235,0.20);
+        }
+
+
+        .department-section-heading h2
+        {
+            margin: 0;
+
+            color: #172554;
+
+            font-size: 23px;
+
+            font-weight: 850;
+
+            line-height: 1.3;
+        }
+
+
+        .department-section-heading p
+        {
+            margin: 6px 0 0;
+
+            color: #64748b;
+
+            font-size: 13px;
+        }
+
+
+        .department-line
+        {
+            flex: 1;
+
+            height: 1px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #dbe4f0,
+                    transparent
+                );
+
+            margin-left: 12px;
+        }
+
+
+        .department-location-grid
+        {
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    2,
+                    minmax(280px,1fr)
+                );
+
+            gap: 20px;
+        }
+
+
+        .department-location-card
+        {
+            position: relative;
+
+            background: white;
+
+            border: 1px solid #e5eaf2;
+
+            border-radius: 17px;
+
+            padding: 25px;
+
+            box-shadow:
+                0 7px 24px
+                rgba(15,23,42,0.05);
+
+            transition:
+                transform 0.25s ease,
+                box-shadow 0.25s ease,
+                border-color 0.25s ease;
+
+            overflow: hidden;
+        }
+
+
+        .department-location-card::before
+        {
+            content: "";
+
+            position: absolute;
+
+            top: 0;
+
+            left: 0;
+
+            right: 0;
+
+            height: 4px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #3157d5,
+                    #60a5fa
+                );
+        }
+
+
+        .department-location-card:hover
+        {
+            transform: translateY(-5px);
+
+            border-color: #bfdbfe;
+
+            box-shadow:
+                0 17px 35px
+                rgba(30,64,175,0.12);
+        }
+
+
+        .location-icon
+        {
+            width: 48px;
+
+            height: 48px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 13px;
+
+            background: #eff6ff;
+
+            font-size: 22px;
+
+            margin-bottom: 17px;
+        }
+
+
+        .department-location-card h3
+        {
+            margin: 0;
+
+            color: #172554;
+
+            font-size: 18px;
+
+            font-weight: 850;
+
+            line-height: 1.4;
+        }
+
+
+        .location-details
+        {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2,1fr);
+
+            gap: 12px;
+
+            margin-top: 18px;
+        }
+
+
+        .location-box
+        {
+            padding: 13px;
+
+            background: #f8faff;
+
+            border: 1px solid #e5eaf2;
+
+            border-radius: 11px;
+        }
+
+
+        .location-box span
+        {
+            display: block;
+
+            color: #64748b;
+
+            font-size: 10px;
+
+            font-weight: 800;
+
+            letter-spacing: 0.7px;
+
+            text-transform: uppercase;
+
+            margin-bottom: 5px;
+        }
+
+
+        .location-box strong
+        {
+            color: #172554;
+
+            font-size: 13px;
+
+            font-weight: 850;
+        }
+
+
+
+        /* =====================================================
+           BACK BUTTON
+        ===================================================== */
+
+        .department-back
+        {
+            text-align: center;
+
+            margin-top: 45px;
+        }
+
+
+        .department-back a
+        {
+            display: inline-block;
+
+            padding: 11px 20px;
+
+            border-radius: 10px;
+
+            background: #eff6ff;
+
+            color: #3157d5;
+
+            text-decoration: none;
+
+            font-size: 13px;
+
+            font-weight: 750;
+
+            transition: 0.2s;
+
+            cursor: pointer;
+        }
+
+
+        .department-back a:hover
+        {
+            background: #dbeafe;
+        }
+
+
+
+        /* =====================================================
+           FOOTER
+        ===================================================== */
+
+        .department-footer
+        {
+            background:
+                linear-gradient(
+                    135deg,
+                    #172554,
+                    #1e40af
+                );
+
+            color: white;
+
+            text-align: center;
+
+            padding: 40px 20px 32px;
+        }
+
+
+        .department-footer h3
+        {
+            margin: 0;
+
+            font-size: 19px;
+
+            font-weight: 800;
+        }
+
+
+        .department-footer p
+        {
+            margin: 8px 0 0;
+
+            color: #bfdbfe;
+
+            font-size: 12px;
+        }
+
+
+        .department-footer .footer-copy
+        {
+            margin-top: 18px !important;
+
+            color: #93c5fd !important;
+
+            font-size: 10px !important;
+        }
+
+
+
+        /* =====================================================
+           MOBILE
+        ===================================================== */
+
+        @media(max-width:700px)
+        {
+
+            .department-navbar
+            {
+                height: auto;
+
+                padding: 13px 16px;
+
+                gap: 10px;
+            }
+
+
+            .department-brand-title
+            {
+                font-size: 14px;
+            }
+
+
+            .department-brand-subtitle
+            {
+                font-size: 8px;
+            }
+
+
+            .department-brand-icon
+            {
+                width: 38px;
+
+                height: 38px;
+            }
+
+
+            .department-nav
+            {
+                gap: 2px;
+            }
+
+
+            .department-nav a
+            {
+                padding: 8px;
+
+                font-size: 11px;
+            }
+
+
+            .department-logout
+            {
+                padding: 8px 10px;
+
+                font-size: 11px;
+            }
+
+
+            .department-container
+            {
+                padding:
+                    38px 16px
+                    55px;
+            }
+
+
+            .department-header h1
+            {
+                font-size: 31px;
+            }
+
+
+            .department-grid,
+            .department-location-grid
+            {
+                grid-template-columns: 1fr;
+            }
+
+
+            .department-section-heading
+            {
+                align-items: flex-start;
+            }
+
+
+            .department-section-heading h2
+            {
+                font-size: 19px;
+            }
+
+
+            .department-line
+            {
+                display: none;
+            }
+
+
+            .location-details
+            {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     NAVBAR
+====================================================== -->
+
+<header class="department-navbar">
+
+    <a
+        href="dashboard.html"
+        class="department-brand"
+    >
+
+        <div class="department-brand-icon">
+            🏫
+        </div>
+
+        <div class="department-brand-text">
+
+            <span class="department-brand-title">
+                Smart Campus
+            </span>
+
+            <span class="department-brand-subtitle">
+                VIT PUNE
+            </span>
+
+        </div>
+
+    </a>
+
+
+    <nav class="department-nav">
+
+        <a href="dashboard.html">
+            Dashboard
+        </a>
+
+        <a href="locations.html">
+            Locations
+        </a>
+
+        <a href="faculty.html">
+            Faculty
+        </a>
+
+        <a
+            href="departments.html"
+            class="active-nav"
+        >
+            Departments
+        </a>
+
+        <a href="index.html">
+            Home
+        </a>
+
+        <button
+            class="department-logout"
+            onclick="logout()"
+        >
+            Logout
+        </button>
+
+    </nav>
+
+</header>
+
+
+
+<!-- =====================================================
+     MAIN
+====================================================== -->
+
+<main class="department-container">
+
+
+    <section class="department-header">
+
+        <span class="department-label">
+            SMART CAMPUS NAVIGATOR
+        </span>
+
+        <h1 id="pageTitle">
+            Department List 🎓
+        </h1>
+
+        <p id="pageSubtitle">
+            Choose a department to explore its campus location.
+        </p>
+
+    </section>
+
+
+
+    <section class="department-result-info">
+
+        <p>
+
+            <strong id="resultCount">
+                8
+            </strong>
+
+            <span id="resultLabel">
+                Departments Available
+            </span>
+
+        </p>
+
+    </section>
+
+
+
+    <div
+        id="departmentContainer"
+        class="department-grid"
+    >
+    </div>
+
+
+
+    <div class="department-back">
+
+        <a
+            href="dashboard.html"
+            id="backButton"
+        >
+            ← Back to Dashboard
+        </a>
+
+    </div>
+
+</main>
+
+
+
+<!-- =====================================================
+     FOOTER
+====================================================== -->
+
+<footer class="department-footer">
+
+    <h3>
+        🏫 Smart Campus Navigator
+    </h3>
+
+    <p>
+        Smart way to explore your campus.
+    </p>
+
+    <p class="footer-copy">
+        © 2026 Smart Campus Navigator • VIT Pune
+    </p>
+
+</footer>
+
+
+
+<script src="js/auth.js"></script>
+
+
+<script>
+
+/* =====================================================
+   DEPARTMENT DATA
+====================================================== */
+
+const departments =
+[
+    {
+        id: "D001",
+
+        name:
+        "Computer Science and Engineering (IOT, Cyber Security, & Block Chain Technology)",
+
+        building:
+        "B Building",
+
+        floor:
+        "3rd Floor",
+
+        available: true
+    },
+
+    {
+        id: "D002",
+
+        name:
+        "Computer Science and Engineering (Data Science)",
+
+        building:
+        "Coming Soon",
+
+        floor:
+        "Coming Soon",
+
+        available: false
+    },
+
+    {
+        id: "D003",
+
+        name:
+        "Computer Engineering (Software Engineering)",
+
+        building:
+        "Coming Soon",
+
+        floor:
+        "Coming Soon",
+
+        available: false
+    },
+
+    {
+        id: "D004",
+
+        name:
+        "AI & Data Science",
+
+        building:
+        "Coming Soon",
+
+        floor:
+        "Coming Soon",
+
+        available: false
+    },
+
+    {
+        id: "D005",
+
+        name:
+        "Civil Engineering",
+
+        building:
+        "Coming Soon",
+
+        floor:
+        "Coming Soon",
+
+        available: false
+    },
+
+    {
+        id: "D006",
+
+        name:
+        "Electronics and Telecommunication Engineering",
+
+        building:
+        "Coming Soon",
+
+        floor:
+        "Coming Soon",
+
+        available: false
+    },
+
+    {
+        id: "D007",
+
+        name:
+        "Engineering Sciences and Humanities",
+
+        building:
+        "Coming Soon",
+
+        floor:
+        "Coming Soon",
+
+        available: false
+    },
+
+    {
+        id: "D008",
+
+        name:
+        "Mechanical Engineering",
+
+        building:
+        "Coming Soon",
+
+        floor:
+        "Coming Soon",
+
+        available: false
+    }
+];
+
+
+
+/* =====================================================
+   ESCAPE HTML
+====================================================== */
+
+function escapeHTML(value)
+{
+    return String(value)
+
+        .replace(/&/g, "&amp;")
+
+        .replace(/</g, "&lt;")
+
+        .replace(/>/g, "&gt;")
+
+        .replace(/"/g, "&quot;")
+
+        .replace(/'/g, "&#039;");
+}
+
+
+
+/* =====================================================
+   DISPLAY DEPARTMENTS
+====================================================== */
+
+function displayDepartments()
+{
+
+    const container =
+        document.getElementById(
+            "departmentContainer"
+        );
+
+    const resultCount =
+        document.getElementById(
+            "resultCount"
+        );
+
+    const resultLabel =
+        document.getElementById(
+            "resultLabel"
+        );
+
+    const pageTitle =
+        document.getElementById(
+            "pageTitle"
+        );
+
+    const pageSubtitle =
+        document.getElementById(
+            "pageSubtitle"
+        );
+
+    const backButton =
+        document.getElementById(
+            "backButton"
+        );
+
+
+    container.innerHTML = "";
+
+    container.className =
+        "department-grid";
+
+
+    pageTitle.textContent =
+        "Department List 🎓";
+
+
+    pageSubtitle.textContent =
+        "Choose a department to explore its campus location.";
+
+
+    resultCount.textContent =
+        departments.length;
+
+
+    resultLabel.textContent =
+        "Departments Available";
+
+
+    backButton.href =
+        "dashboard.html";
+
+
+    backButton.textContent =
+        "← Back to Dashboard";
+
+
+    backButton.onclick =
+        null;
+
+
+
+    departments.forEach(
+        function(department)
+        {
+
+            const card =
+                document.createElement(
+                    "article"
+                );
+
+
+            if(department.available)
+            {
+
+                card.className =
+                    "department-card available";
+
+
+                card.innerHTML = `
+
+                    <div class="department-card-top">
+
+                        <div class="department-card-icon">
+                            🎓
+                        </div>
+
+                        <div class="department-card-arrow">
+                            →
+                        </div>
+
+                    </div>
+
+
+                    <h3>
+                        ${escapeHTML(
+                            department.name
+                        )}
+                    </h3>
+
+
+                    <p>
+                        Department location
+                        is currently available
+                        on campus.
+                    </p>
+
+
+                    <div class="department-card-action">
+
+                        ${escapeHTML(
+                            department.building
+                        )}
+
+                        •
+
+                        ${escapeHTML(
+                            department.floor
+                        )}
+
+                        • VIEW LOCATION →
+
+                    </div>
+
+                `;
+
+
+                card.addEventListener(
+                    "click",
+                    function()
+                    {
+                        showDepartment(
+                            department
+                        );
+                    }
+                );
+
+            }
+
+            else
+            {
+
+                card.className =
+                    "department-card coming";
+
+
+                card.innerHTML = `
+
+                    <div class="department-card-top">
+
+                        <div class="department-card-icon">
+                            🚀
+                        </div>
+
+                        <div class="coming-badge">
+                            COMING SOON
+                        </div>
+
+                    </div>
+
+
+                    <h3>
+                        ${escapeHTML(
+                            department.name
+                        )}
+                    </h3>
+
+
+                    <p>
+                        Department information
+                        for this department
+                        will be added soon.
+                    </p>
+
+
+                    <div class="department-card-action">
+
+                        DEPARTMENT COMING SOON
+
+                    </div>
+
+                `;
+
+            }
+
+
+            container.appendChild(
+                card
+            );
+
+        }
+    );
+
+}
+
+
+
+/* =====================================================
+   SHOW DEPARTMENT LOCATION
+====================================================== */
+
+function showDepartment(
+    department
+)
+{
+
+    const container =
+        document.getElementById(
+            "departmentContainer"
+        );
+
+    const resultCount =
+        document.getElementById(
+            "resultCount"
+        );
+
+    const resultLabel =
+        document.getElementById(
+            "resultLabel"
+        );
+
+    const pageTitle =
+        document.getElementById(
+            "pageTitle"
+        );
+
+    const pageSubtitle =
+        document.getElementById(
+            "pageSubtitle"
+        );
+
+    const backButton =
+        document.getElementById(
+            "backButton"
+        );
+
+
+    pageTitle.textContent =
+        "Department Location 📍";
+
+
+    pageSubtitle.textContent =
+        "Campus location information for the selected department.";
+
+
+    resultCount.textContent =
+        "1";
+
+
+    resultLabel.textContent =
+        "Department Available";
+
+
+    container.className =
+        "department-section";
+
+
+    container.innerHTML = `
+
+        <div class="department-section-heading">
+
+            <div class="department-section-icon">
+                🎓
+            </div>
+
+            <div>
+
+                <h2>
+                    ${escapeHTML(
+                        department.name
+                    )}
+                </h2>
+
+                <p>
+                    Department location
+                    available on campus.
+                </p>
+
+            </div>
+
+            <div class="department-line"></div>
+
+        </div>
+
+
+        <div class="department-location-grid">
+
+            <article class="department-location-card">
+
+                <div class="location-icon">
+                    🏫
+                </div>
+
+                <h3>
+                    Department Location
+                </h3>
+
+
+                <div class="location-details">
+
+                    <div class="location-box">
+
+                        <span>
+                            Building
+                        </span>
+
+                        <strong>
+                            ${escapeHTML(
+                                department.building
+                            )}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="location-box">
+
+                        <span>
+                            Floor
+                        </span>
+
+                        <strong>
+                            ${escapeHTML(
+                                department.floor
+                            )}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+        </div>
+
+    `;
+
+
+    backButton.href =
+        "#";
+
+
+    backButton.textContent =
+        "← Back to Departments";
+
+
+    backButton.onclick =
+        function(event)
+        {
+
+            event.preventDefault();
+
+            displayDepartments();
+
+        };
+
+}
+
+
+
+/* =====================================================
+   LOGOUT
+====================================================== */
+
+function logout()
+{
+
+    localStorage.removeItem(
+        "isLoggedIn"
+    );
+
+    localStorage.removeItem(
+        "loggedInUserName"
+    );
+
+    localStorage.removeItem(
+        "smartCampusUser"
+    );
+
+    window.location.href =
+        "login.html";
+
+}
+
+
+
+/* =====================================================
+   LOGIN CHECK
+====================================================== */
+
+if(
+    typeof checkLogin ===
+    "function"
+)
+{
+    checkLogin();
+}
+
+
+
+/* =====================================================
+   START
+====================================================== */
+
+displayDepartments();
+
+</script>
+
+
+</body>
+
+</html>

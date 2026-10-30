@@ -1,0 +1,2267 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Search Campus - Smart Campus Navigator</title>
+
+    <script src="js/auth.js"></script>
+
+    <style>
+
+        /* =========================================
+           GLOBAL
+        ========================================= */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f6fa;
+            color: #172033;
+            min-height: 100vh;
+        }
+
+
+        /* =========================================
+           NAVBAR
+        ========================================= */
+
+        .navbar {
+            height: 72px;
+
+            background: linear-gradient(
+                135deg,
+                #123a91,
+                #07549a,
+                #0c67b7
+            );
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 7%;
+
+            color: white;
+
+            box-shadow:
+                0 5px 20px rgba(0, 50, 120, 0.18);
+
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+
+        .logo {
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+        }
+
+
+        .navbar nav {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+
+        .navbar nav a {
+            text-decoration: none;
+            color: white;
+
+            padding: 10px 18px;
+
+            border-radius: 8px;
+
+            font-size: 14px;
+            font-weight: 600;
+
+            transition: 0.3s ease;
+        }
+
+
+        .navbar nav a:hover {
+            background: rgba(255,255,255,0.15);
+
+            transform: translateY(-2px);
+        }
+
+
+        .logout-btn {
+            border: none;
+
+            background: white;
+            color: #123a91;
+
+            padding: 10px 18px;
+
+            border-radius: 8px;
+
+            font-size: 14px;
+            font-weight: 700;
+
+            cursor: pointer;
+
+            transition: 0.3s ease;
+        }
+
+
+        .logout-btn:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 6px 15px rgba(0,0,0,0.15);
+        }
+
+
+        /* =========================================
+           MAIN CONTAINER
+        ========================================= */
+
+        .search-container {
+            width: 88%;
+            max-width: 1200px;
+
+            margin: auto;
+
+            padding: 35px 0 70px;
+        }
+
+
+        /* =========================================
+           BACK BUTTON
+        ========================================= */
+
+        .search-back {
+            margin-bottom: 25px;
+        }
+
+
+        .search-back a {
+            text-decoration: none;
+
+            color: #1456a0;
+
+            font-size: 14px;
+            font-weight: 600;
+
+            transition: 0.3s ease;
+        }
+
+
+        .search-back a:hover {
+            color: #0b3c78;
+
+            margin-left: 4px;
+        }
+
+
+        /* =========================================
+           HEADING
+        ========================================= */
+
+        .search-heading {
+            text-align: center;
+
+            margin-bottom: 45px;
+
+            animation: fadeUp 0.7s ease;
+        }
+
+
+        .search-main-icon {
+            width: 72px;
+            height: 72px;
+
+            margin: 0 auto 18px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 20px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #123a91,
+                    #0c67b7
+                );
+
+            color: white;
+
+            font-size: 30px;
+
+            box-shadow:
+                0 12px 30px rgba(18,58,145,0.25);
+
+            animation:
+                floatIcon 3s ease-in-out infinite;
+        }
+
+
+        .search-heading h1 {
+            font-size: 34px;
+
+            color: #123a91;
+
+            margin-bottom: 10px;
+        }
+
+
+        .search-heading p {
+            color: #687386;
+
+            font-size: 16px;
+        }
+
+
+        /* =========================================
+           SEARCH OPTIONS
+        ========================================= */
+
+        .search-option-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 22px;
+
+            animation: fadeUp 0.9s ease;
+        }
+
+
+        .search-option-card {
+            background: white;
+
+            border-radius: 18px;
+
+            padding: 30px 24px;
+
+            text-align: center;
+
+            border: 1px solid #e6eaf0;
+
+            box-shadow:
+                0 8px 25px rgba(20,40,80,0.07);
+
+            cursor: pointer;
+
+            transition:
+                transform 0.35s ease,
+                box-shadow 0.35s ease,
+                border-color 0.35s ease;
+        }
+
+
+        .search-option-card:hover {
+            transform: translateY(-9px);
+
+            box-shadow:
+                0 18px 38px rgba(18,58,145,0.16);
+
+            border-color: #b9d2f2;
+        }
+
+
+        .search-option-icon {
+            width: 65px;
+            height: 65px;
+
+            margin: 0 auto 20px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 17px;
+
+            background: #edf4ff;
+
+            font-size: 29px;
+
+            transition: 0.35s ease;
+        }
+
+
+        .search-option-card:hover
+        .search-option-icon {
+            transform:
+                scale(1.08)
+                rotate(3deg);
+
+            background: #e1edff;
+        }
+
+
+        .search-option-card h2 {
+            color: #173d78;
+
+            font-size: 20px;
+
+            margin-bottom: 12px;
+        }
+
+
+        .search-option-card p {
+            color: #707b8d;
+
+            font-size: 14px;
+
+            line-height: 1.6;
+
+            min-height: 68px;
+
+            margin-bottom: 22px;
+        }
+
+
+        .search-option-card button {
+            width: 100%;
+
+            border: none;
+
+            padding: 12px 15px;
+
+            border-radius: 9px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #123a91,
+                    #0c67b7
+                );
+
+            color: white;
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            transition: 0.3s ease;
+        }
+
+
+        .search-option-card button:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 8px 18px rgba(18,58,145,0.25);
+        }
+
+
+        /* =========================================
+           SEARCH AREA
+        ========================================= */
+
+        .campus-search-area {
+            background: white;
+
+            border-radius: 22px;
+
+            padding: 40px;
+
+            border: 1px solid #e4e9f1;
+
+            box-shadow:
+                0 12px 35px rgba(20,40,80,0.08);
+
+            animation: slideIn 0.5s ease;
+        }
+
+
+        .campus-search-header {
+            text-align: center;
+
+            margin-bottom: 30px;
+        }
+
+
+        .campus-search-icon {
+            width: 70px;
+            height: 70px;
+
+            margin: 0 auto 15px;
+
+            border-radius: 18px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #123a91,
+                    #0c67b7
+                );
+
+            color: white;
+
+            font-size: 30px;
+
+            box-shadow:
+                0 10px 25px rgba(18,58,145,0.22);
+        }
+
+
+        .campus-search-header h2 {
+            color: #123a91;
+
+            font-size: 27px;
+
+            margin-bottom: 8px;
+        }
+
+
+        .campus-search-header p {
+            color: #707b8d;
+
+            font-size: 14px;
+        }
+
+
+        /* =========================================
+           SEARCH BOX
+        ========================================= */
+
+        .campus-search-box {
+            max-width: 750px;
+
+            margin: auto;
+
+            display: flex;
+
+            gap: 10px;
+
+            background: #f5f7fb;
+
+            padding: 8px;
+
+            border-radius: 13px;
+
+            border: 1px solid #e0e6ef;
+
+            transition: 0.3s ease;
+        }
+
+
+        .campus-search-box:focus-within {
+            border-color: #5d91d0;
+
+            box-shadow:
+                0 0 0 4px rgba(18,58,145,0.08);
+
+            background: white;
+        }
+
+
+        .campus-search-box input {
+            flex: 1;
+
+            border: none;
+
+            outline: none;
+
+            background: transparent;
+
+            padding: 13px 15px;
+
+            font-size: 15px;
+
+            color: #172033;
+        }
+
+
+        .campus-search-box input::placeholder {
+            color: #9aa4b2;
+        }
+
+
+        .campus-search-box button {
+            border: none;
+
+            padding: 0 25px;
+
+            border-radius: 9px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #123a91,
+                    #0c67b7
+                );
+
+            color: white;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            transition: 0.3s ease;
+        }
+
+
+        .campus-search-box button:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 8px 18px rgba(18,58,145,0.25);
+        }
+
+
+        /* =========================================
+           CHANGE SEARCH
+        ========================================= */
+
+        .change-search-btn {
+            display: block;
+
+            margin: 18px auto 30px;
+
+            background: transparent;
+
+            border: none;
+
+            color: #1456a0;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            transition: 0.3s ease;
+        }
+
+
+        .change-search-btn:hover {
+            color: #0c3c78;
+
+            transform: translateX(-3px);
+        }
+
+
+        /* =========================================
+           RESULTS
+        ========================================= */
+
+        .campus-search-results {
+            margin-top: 10px;
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 20px;
+        }
+
+
+        .search-result-card {
+            background: #ffffff;
+
+            border: 1px solid #e2e7ef;
+
+            border-radius: 16px;
+
+            padding: 24px;
+
+            display: flex;
+
+            gap: 18px;
+
+            box-shadow:
+                0 7px 22px rgba(20,40,80,0.06);
+
+            transition: 0.35s ease;
+
+            animation: fadeUp 0.5s ease;
+        }
+
+
+        .search-result-card:hover {
+            transform: translateY(-5px);
+
+            border-color: #b9d2f2;
+
+            box-shadow:
+                0 15px 30px rgba(18,58,145,0.12);
+        }
+
+
+        .search-result-icon {
+            width: 55px;
+            height: 55px;
+
+            min-width: 55px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #edf4ff;
+
+            border-radius: 14px;
+
+            font-size: 25px;
+        }
+
+
+        .search-result-content {
+            flex: 1;
+        }
+
+
+        .search-result-type {
+            display: inline-block;
+
+            font-size: 10px;
+
+            font-weight: 800;
+
+            letter-spacing: 1px;
+
+            color: #1764b0;
+
+            background: #eaf3ff;
+
+            padding: 5px 9px;
+
+            border-radius: 20px;
+
+            margin-bottom: 8px;
+        }
+
+
+        .search-result-content h3 {
+            color: #183c73;
+
+            font-size: 19px;
+
+            margin-bottom: 13px;
+        }
+
+
+        .search-result-content p {
+            color: #687386;
+
+            font-size: 13px;
+
+            line-height: 1.6;
+
+            margin-bottom: 4px;
+        }
+
+
+        .search-result-content strong {
+            color: #35445b;
+        }
+
+
+        /* =========================================
+           RESULT BUTTONS
+        ========================================= */
+
+        .search-result-actions {
+            display: flex;
+
+            align-items: center;
+
+            flex-wrap: wrap;
+
+            gap: 8px;
+
+            margin-top: 15px;
+        }
+
+
+        .search-result-btn {
+            display: inline-block;
+
+            padding: 10px 16px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #123a91,
+                    #0c67b7
+                );
+
+            color: white;
+
+            text-decoration: none;
+
+            border-radius: 8px;
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            transition: 0.3s ease;
+        }
+
+
+        .search-result-btn:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 7px 16px rgba(18,58,145,0.22);
+        }
+
+
+        /* =========================================
+           NAVIGATION BUTTON
+        ========================================= */
+
+        .navigate-btn {
+            background: white;
+
+            color: #123a91;
+
+            border: 1px solid #123a91;
+        }
+
+
+        .navigate-btn:hover {
+            background:
+                linear-gradient(
+                    135deg,
+                    #123a91,
+                    #0c67b7
+                );
+
+            color: white;
+
+            border-color: #123a91;
+
+            box-shadow:
+                0 7px 16px rgba(18,58,145,0.18);
+        }
+
+
+        /* =========================================
+           LOADING
+        ========================================= */
+
+        .search-loading {
+            grid-column: 1 / -1;
+
+            text-align: center;
+
+            padding: 50px;
+
+            background: #f8faff;
+
+            border-radius: 16px;
+
+            border: 1px solid #e4eaf3;
+
+            animation:
+                pulse 1.4s infinite ease-in-out;
+        }
+
+
+        .search-loading h3 {
+            color: #123a91;
+
+            margin-bottom: 8px;
+        }
+
+
+        .search-loading p {
+            color: #758094;
+        }
+
+
+        /* =========================================
+           NO RESULT
+        ========================================= */
+
+        .search-no-result {
+            grid-column: 1 / -1;
+
+            text-align: center;
+
+            padding: 60px 20px;
+
+            background: #f8faff;
+
+            border-radius: 17px;
+
+            border: 1px solid #e3e8f1;
+
+            animation: fadeUp 0.5s ease;
+        }
+
+
+        .search-no-result > div {
+            font-size: 42px;
+
+            margin-bottom: 12px;
+        }
+
+
+        .search-no-result h3 {
+            color: #243b63;
+
+            font-size: 21px;
+
+            margin-bottom: 8px;
+        }
+
+
+        .search-no-result p {
+            color: #778296;
+
+            font-size: 14px;
+        }
+
+
+        /* =========================================
+           FOOTER
+        ========================================= */
+
+        footer {
+            background:
+                linear-gradient(
+                    135deg,
+                    #123a91,
+                    #07549a,
+                    #0c67b7
+                );
+
+            color: white;
+
+            text-align: center;
+
+            padding: 30px 20px;
+        }
+
+
+        footer h3 {
+            font-size: 18px;
+
+            margin-bottom: 7px;
+        }
+
+
+        footer p {
+            font-size: 13px;
+
+            opacity: 0.85;
+        }
+
+
+        /* =========================================
+           ANIMATIONS
+        ========================================= */
+
+        @keyframes fadeUp {
+
+            from {
+                opacity: 0;
+                transform: translateY(25px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+        }
+
+
+        @keyframes slideIn {
+
+            from {
+                opacity: 0;
+                transform:
+                    translateY(15px)
+                    scale(0.98);
+            }
+
+            to {
+                opacity: 1;
+                transform:
+                    translateY(0)
+                    scale(1);
+            }
+
+        }
+
+
+        @keyframes floatIcon {
+
+            0%, 100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-6px);
+            }
+
+        }
+
+
+        @keyframes pulse {
+
+            0%, 100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.65;
+            }
+
+        }
+
+
+        /* =========================================
+           TABLET
+        ========================================= */
+
+        @media (max-width: 950px) {
+
+            .search-option-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .campus-search-results {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+
+        /* =========================================
+           MOBILE
+        ========================================= */
+
+        @media (max-width: 650px) {
+
+            .navbar {
+                height: auto;
+
+                padding: 15px 5%;
+
+                flex-direction: column;
+
+                gap: 12px;
+            }
+
+
+            .logo {
+                font-size: 19px;
+            }
+
+
+            .navbar nav {
+                flex-wrap: wrap;
+
+                justify-content: center;
+            }
+
+
+            .navbar nav a,
+            .logout-btn {
+                padding: 8px 12px;
+
+                font-size: 12px;
+            }
+
+
+            .search-container {
+                width: 92%;
+
+                padding-top: 25px;
+            }
+
+
+            .search-heading h1 {
+                font-size: 28px;
+            }
+
+
+            .search-heading p {
+                font-size: 14px;
+            }
+
+
+            .search-option-grid {
+                grid-template-columns: 1fr;
+
+                gap: 16px;
+            }
+
+
+            .search-option-card {
+                padding: 25px 20px;
+            }
+
+
+            .campus-search-area {
+                padding: 25px 18px;
+
+                border-radius: 17px;
+            }
+
+
+            .campus-search-header h2 {
+                font-size: 23px;
+            }
+
+
+            .campus-search-box {
+                flex-direction: column;
+
+                padding: 7px;
+            }
+
+
+            .campus-search-box button {
+                height: 45px;
+            }
+
+
+            .search-result-card {
+                flex-direction: column;
+
+                padding: 20px;
+            }
+
+
+            .search-result-icon {
+                margin-bottom: 2px;
+            }
+
+
+            .search-result-actions {
+                width: 100%;
+            }
+
+
+            .search-result-btn {
+                flex: 1;
+
+                text-align: center;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body class="search-page">
+
+
+    <!-- =========================================
+         NAVBAR
+    ========================================== -->
+
+    <header class="navbar">
+
+        <div class="logo">
+            🏫 Smart Campus
+        </div>
+
+        <nav>
+
+            <a href="dashboard.html">
+                Dashboard
+            </a>
+
+            <a href="index.html">
+                Home
+            </a>
+
+            <button
+                class="logout-btn"
+                onclick="logout()"
+            >
+                Logout
+            </button>
+
+        </nav>
+
+    </header>
+
+
+    <!-- =========================================
+         MAIN
+    ========================================= -->
+
+    <main class="search-container">
+
+
+        <!-- BACK -->
+
+        <div class="search-back">
+
+            <a href="dashboard.html">
+                ← Back to Dashboard
+            </a>
+
+        </div>
+
+
+        <!-- =====================================
+             HEADING
+        ====================================== -->
+
+        <section class="search-heading">
+
+            <div class="search-main-icon">
+                🔍
+            </div>
+
+            <h1 id="mainSearchHeading">
+                Search Campus
+            </h1>
+
+            <p id="mainSearchDescription">
+                Find locations, faculty, departments and buildings across your campus.
+            </p>
+
+        </section>
+
+
+        <!-- =====================================
+             SEARCH OPTIONS
+        ====================================== -->
+
+        <section
+            id="searchOptions"
+            class="search-option-grid"
+        >
+
+            <!-- LOCATION -->
+
+            <div
+                class="search-option-card"
+                onclick="selectSearchType('location')"
+            >
+
+                <div class="search-option-icon">
+                    📍
+                </div>
+
+                <h2>
+                    Location
+                </h2>
+
+                <p>
+                    Search classrooms, laboratories,
+                    rooms and campus facilities.
+                </p>
+
+                <button type="button">
+                    Search Location →
+                </button>
+
+            </div>
+
+
+            <!-- FACULTY -->
+
+            <div
+                class="search-option-card"
+                onclick="selectSearchType('faculty')"
+            >
+
+                <div class="search-option-icon">
+                    👨‍🏫
+                </div>
+
+                <h2>
+                    Faculty
+                </h2>
+
+                <p>
+                    Search faculty members,
+                    cabins and department information.
+                </p>
+
+                <button type="button">
+                    Search Faculty →
+                </button>
+
+            </div>
+
+
+            <!-- DEPARTMENT -->
+
+            <div
+                class="search-option-card"
+                onclick="selectSearchType('department')"
+            >
+
+                <div class="search-option-icon">
+                    🎓
+                </div>
+
+                <h2>
+                    Department
+                </h2>
+
+                <p>
+                    Search academic departments
+                    and their information.
+                </p>
+
+                <button type="button">
+                    Search Department →
+                </button>
+
+            </div>
+
+
+            <!-- BUILDING -->
+
+            <div
+                class="search-option-card"
+                onclick="selectSearchType('building')"
+            >
+
+                <div class="search-option-icon">
+                    🏢
+                </div>
+
+                <h2>
+                    Building
+                </h2>
+
+                <p>
+                    Explore campus buildings,
+                    blocks and floor information.
+                </p>
+
+                <button type="button">
+                    Explore Buildings →
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================
+             SEARCH AREA
+        ====================================== -->
+
+        <section
+            id="searchArea"
+            class="campus-search-area"
+            style="display:none;"
+        >
+
+            <div class="campus-search-header">
+
+                <div
+                    id="selectedSearchIcon"
+                    class="campus-search-icon"
+                >
+                    📍
+                </div>
+
+                <h2 id="selectedSearchTitle">
+                    Search Location
+                </h2>
+
+                <p id="selectedSearchDescription">
+                    Enter location name to search.
+                </p>
+
+            </div>
+
+
+            <!-- SEARCH BOX -->
+
+            <div class="campus-search-box">
+
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Enter location name..."
+                    autocomplete="off"
+                >
+
+                <button
+                    type="button"
+                    onclick="performSearch()"
+                >
+                    🔍 Search
+                </button>
+
+            </div>
+
+
+            <!-- CHANGE SEARCH TYPE -->
+
+            <button
+                type="button"
+                id="changeSearchButton"
+                class="change-search-btn"
+                onclick="changeSearchType()"
+            >
+                ← Change Search Type
+            </button>
+
+
+            <!-- RESULTS -->
+
+            <div
+                id="searchResults"
+                class="campus-search-results"
+            ></div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================================
+         FOOTER
+    ========================================= -->
+
+    <footer>
+
+        <h3>
+            🏫 Smart Campus Navigator
+        </h3>
+
+        <p>
+            Smart way to explore your campus.
+        </p>
+
+    </footer>
+
+
+    <!-- =========================================
+         JAVASCRIPT
+    ========================================= -->
+
+    <script>
+
+
+        /* =========================================
+           LOGIN CHECK
+        ========================================= */
+
+        if (typeof checkLogin === "function") {
+            checkLogin();
+        }
+
+
+        /* =========================================
+           CURRENT SEARCH TYPE
+        ========================================= */
+
+        let selectedSearchType = "";
+
+        /*
+            TRUE when page is opened directly
+            from Dashboard with ?type=...
+        */
+        let directSearch = false;
+
+
+        /* =========================================
+           SELECT SEARCH TYPE
+        ========================================= */
+
+        function selectSearchType(type) {
+
+            /*
+                BUILDING
+
+                Building ला search करण्याची गरज नाही.
+                Direct buildings.html open होईल.
+            */
+
+            if (type === "building") {
+
+                window.location.href =
+                    "buildings.html";
+
+                return;
+
+            }
+
+
+            selectedSearchType = type;
+
+
+            const searchOptions =
+                document.getElementById(
+                    "searchOptions"
+                );
+
+            const searchArea =
+                document.getElementById(
+                    "searchArea"
+                );
+
+            const searchIcon =
+                document.getElementById(
+                    "selectedSearchIcon"
+                );
+
+            const searchTitle =
+                document.getElementById(
+                    "selectedSearchTitle"
+                );
+
+            const searchDescription =
+                document.getElementById(
+                    "selectedSearchDescription"
+                );
+
+            const searchInput =
+                document.getElementById(
+                    "searchInput"
+                );
+
+            const searchResults =
+                document.getElementById(
+                    "searchResults"
+                );
+
+            const changeSearchButton =
+                document.getElementById(
+                    "changeSearchButton"
+                );
+
+
+            searchInput.value = "";
+
+            searchResults.innerHTML = "";
+
+
+            /* =====================================
+               LOCATION
+            ===================================== */
+
+            if (type === "location") {
+
+                searchIcon.innerHTML = "📍";
+
+                searchTitle.innerHTML =
+                    "Search Location";
+
+                searchDescription.innerHTML =
+                    "Search classrooms, laboratories, rooms and campus facilities.";
+
+                searchInput.placeholder =
+                    "Enter location name...";
+
+            }
+
+
+            /* =====================================
+               FACULTY
+            ===================================== */
+
+            else if (type === "faculty") {
+
+                searchIcon.innerHTML = "👨‍🏫";
+
+                searchTitle.innerHTML =
+                    "Search Faculty";
+
+                searchDescription.innerHTML =
+                    "Search faculty members by name.";
+
+                searchInput.placeholder =
+                    "Enter faculty name...";
+
+            }
+
+
+            /* =====================================
+               DEPARTMENT
+            ===================================== */
+
+            else if (type === "department") {
+
+                searchIcon.innerHTML = "🎓";
+
+                searchTitle.innerHTML =
+                    "Search Department";
+
+                searchDescription.innerHTML =
+                    "Search academic departments.";
+
+                searchInput.placeholder =
+                    "Enter department name...";
+
+            }
+
+
+            /*
+                Hide the four search options
+                and show selected search area.
+            */
+
+            searchOptions.style.display = "none";
+
+            searchArea.style.display = "block";
+
+
+            /*
+                IMPORTANT:
+
+                If opened from Dashboard using:
+
+                search.html?type=location
+                search.html?type=faculty
+                search.html?type=department
+
+                then Change Search Type is hidden.
+
+                Normal search.html:
+                Change Search Type remains visible.
+            */
+
+            if (directSearch === true) {
+
+                changeSearchButton.style.display =
+                    "none";
+
+            }
+
+            else {
+
+                changeSearchButton.style.display =
+                    "block";
+
+            }
+
+
+            searchInput.focus();
+
+        }
+
+
+        /* =========================================
+           CHANGE SEARCH TYPE
+        ========================================= */
+
+        function changeSearchType() {
+
+            const searchOptions =
+                document.getElementById(
+                    "searchOptions"
+                );
+
+            const searchArea =
+                document.getElementById(
+                    "searchArea"
+                );
+
+            const searchInput =
+                document.getElementById(
+                    "searchInput"
+                );
+
+            const searchResults =
+                document.getElementById(
+                    "searchResults"
+                );
+
+
+            directSearch = false;
+
+            selectedSearchType = "";
+
+            searchInput.value = "";
+
+            searchResults.innerHTML = "";
+
+            searchArea.style.display = "none";
+
+            searchOptions.style.display = "grid";
+
+        }
+
+
+        /* =========================================
+           PERFORM SEARCH
+        ========================================= */
+
+        async function performSearch() {
+
+            const searchInput =
+                document.getElementById(
+                    "searchInput"
+                );
+
+            const searchResults =
+                document.getElementById(
+                    "searchResults"
+                );
+
+            const keyword =
+                searchInput.value.trim();
+
+
+            if (keyword === "") {
+
+                alert(
+                    "Please enter something to search."
+                );
+
+                searchInput.focus();
+
+                return;
+
+            }
+
+
+            let API_URL = "";
+
+
+            /* =====================================
+               LOCATION API
+            ===================================== */
+
+            if (
+                selectedSearchType === "location"
+            ) {
+
+                API_URL =
+                    "http://127.0.0.1:8080/api/locations";
+
+            }
+
+
+            /* =====================================
+               FACULTY API
+            ===================================== */
+
+            else if (
+                selectedSearchType === "faculty"
+            ) {
+
+                API_URL =
+                    "http://127.0.0.1:8080/api/faculty";
+
+            }
+
+
+            /* =====================================
+               DEPARTMENT API
+            ===================================== */
+
+            else if (
+                selectedSearchType === "department"
+            ) {
+
+                API_URL =
+                    "http://127.0.0.1:8080/api/departments";
+
+            }
+
+
+            if (API_URL === "") {
+
+                alert(
+                    "Please select a search type."
+                );
+
+                return;
+
+            }
+
+
+            searchResults.innerHTML = `
+
+                <div class="search-loading">
+
+                    <h3>
+                        🔄 Searching...
+                    </h3>
+
+                    <p>
+                        Please wait.
+                    </p>
+
+                </div>
+
+            `;
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        API_URL + "?t=" + Date.now()
+                    );
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "API request failed"
+                    );
+
+                }
+
+
+                const data =
+                    await response.json();
+
+
+                let items = [];
+
+
+                /* =====================================
+                   GET LOCATION DATA
+                ===================================== */
+
+                if (
+                    selectedSearchType === "location"
+                ) {
+
+                    items =
+                        data.locations || [];
+
+                }
+
+
+                /* =====================================
+                   GET FACULTY DATA
+                ===================================== */
+
+                else if (
+                    selectedSearchType === "faculty"
+                ) {
+
+                    items =
+                        data.faculty || [];
+
+                }
+
+
+                /* =====================================
+                   GET DEPARTMENT DATA
+                ===================================== */
+
+                else if (
+                    selectedSearchType === "department"
+                ) {
+
+                    items =
+                        data.departments || [];
+
+                }
+
+
+                /* =====================================
+                   SEARCH FILTER
+                ===================================== */
+
+                const searchText =
+                    keyword.toLowerCase();
+
+
+                const filteredItems =
+                    items.filter(
+                        function(item) {
+
+                            return JSON.stringify(item)
+                                .toLowerCase()
+                                .includes(searchText);
+
+                        }
+                    );
+
+
+                /* =====================================
+                   NO RESULTS
+                ===================================== */
+
+                if (
+                    filteredItems.length === 0
+                ) {
+
+                    searchResults.innerHTML = `
+
+                        <div class="search-no-result">
+
+                            <div>
+                                🔍
+                            </div>
+
+                            <h3>
+                                No Results Found
+                            </h3>
+
+                            <p>
+                                No ${selectedSearchType}
+                                found for
+                                "<strong>${escapeHTML(keyword)}</strong>".
+                            </p>
+
+                        </div>
+
+                    `;
+
+                    return;
+
+                }
+
+
+                displaySearchResults(
+                    filteredItems
+                );
+
+            }
+
+
+            catch (error) {
+
+                console.error(
+                    "Search API Error:",
+                    error
+                );
+
+
+                searchResults.innerHTML = `
+
+                    <div class="search-no-result">
+
+                        <div>
+                            ⚠️
+                        </div>
+
+                        <h3>
+                            Unable to Search
+                        </h3>
+
+                        <p>
+                            Please make sure the
+                            backend server is running.
+                        </p>
+
+                    </div>
+
+                `;
+
+            }
+
+        }
+
+
+        /* =========================================
+           DISPLAY SEARCH RESULTS
+        ========================================= */
+
+        function displaySearchResults(items) {
+
+            const searchResults =
+                document.getElementById(
+                    "searchResults"
+                );
+
+
+            let resultHTML = "";
+
+
+            /* =====================================
+               LOCATION RESULTS
+            ===================================== */
+
+            if (
+                selectedSearchType === "location"
+            ) {
+
+                for (
+                    let i = 0;
+                    i < items.length;
+                    i++
+                ) {
+
+                    const location =
+                        items[i];
+
+
+                    resultHTML += `
+
+                        <div class="search-result-card">
+
+                            <div class="search-result-icon">
+                                📍
+                            </div>
+
+                            <div class="search-result-content">
+
+                                <span class="search-result-type">
+                                    LOCATION
+                                </span>
+
+                                <h3>
+                                    ${escapeHTML(location.name)}
+                                </h3>
+
+                                <p>
+                                    <strong>Building:</strong>
+                                    ${escapeHTML(location.building)}
+                                </p>
+
+                                <p>
+                                    <strong>Floor:</strong>
+                                    ${escapeHTML(location.floor)}
+                                </p>
+
+                                <p>
+                                    <strong>Room:</strong>
+                                    ${escapeHTML(location.room)}
+                                </p>
+
+                                <p>
+                                    <strong>Department:</strong>
+                                    ${escapeHTML(location.department)}
+                                </p>
+
+
+                                <div class="search-result-actions">
+
+                                    <a
+                                        href="location-details.html?id=${encodeURIComponent(location.id)}"
+                                        class="search-result-btn"
+                                    >
+                                        View Details →
+                                    </a>
+
+                                    <a
+                                        href="navigation.html?type=location&id=${encodeURIComponent(location.id)}"
+                                        class="search-result-btn navigate-btn"
+                                    >
+                                        🧭 Navigate
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    `;
+
+                }
+
+            }
+
+
+            /* =====================================
+               FACULTY RESULTS
+            ===================================== */
+
+            else if (
+                selectedSearchType === "faculty"
+            ) {
+
+                for (
+                    let i = 0;
+                    i < items.length;
+                    i++
+                ) {
+
+                    const faculty =
+                        items[i];
+
+
+                    resultHTML += `
+
+                        <div class="search-result-card">
+
+                            <div class="search-result-icon">
+                                👨‍🏫
+                            </div>
+
+                            <div class="search-result-content">
+
+                                <span class="search-result-type">
+                                    FACULTY
+                                </span>
+
+                                <h3>
+                                    ${escapeHTML(faculty.name)}
+                                </h3>
+
+                                <p>
+                                    <strong>Department:</strong>
+                                    ${escapeHTML(faculty.department)}
+                                </p>
+
+                                <p>
+                                    <strong>Building:</strong>
+                                    ${escapeHTML(faculty.building)}
+                                </p>
+
+                                <p>
+                                    <strong>Floor:</strong>
+                                    ${escapeHTML(faculty.floor)}
+                                </p>
+
+                                <p>
+                                    <strong>Room:</strong>
+                                    ${escapeHTML(faculty.room)}
+                                </p>
+
+
+                                <div class="search-result-actions">
+
+                                    <a
+                                        href="faculty-details.html?id=${encodeURIComponent(faculty.id)}"
+                                        class="search-result-btn"
+                                    >
+                                        View Details →
+                                    </a>
+
+                                    <a
+                                        href="navigation.html?type=faculty&id=${encodeURIComponent(faculty.id)}"
+                                        class="search-result-btn navigate-btn"
+                                    >
+                                        🧭 Navigate
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    `;
+
+                }
+
+            }
+
+
+            /* =====================================
+               DEPARTMENT RESULTS
+            ===================================== */
+
+            else if (
+                selectedSearchType === "department"
+            ) {
+
+                for (
+                    let i = 0;
+                    i < items.length;
+                    i++
+                ) {
+
+                    const department =
+                        items[i];
+
+
+                    resultHTML += `
+
+                        <div class="search-result-card">
+
+                            <div class="search-result-icon">
+                                🎓
+                            </div>
+
+                            <div class="search-result-content">
+
+                                <span class="search-result-type">
+                                    DEPARTMENT
+                                </span>
+
+                                <h3>
+                                    ${escapeHTML(department.name)}
+                                </h3>
+
+                                <p>
+                                    <strong>Code:</strong>
+                                    ${escapeHTML(department.shortName)}
+                                </p>
+
+                                <p>
+                                    <strong>Building:</strong>
+                                    ${escapeHTML(department.building)}
+                                </p>
+
+                                <p>
+                                    <strong>Floor:</strong>
+                                    ${escapeHTML(department.floor)}
+                                </p>
+
+
+                                <div class="search-result-actions">
+
+                                    <a
+                                        href="department-details.html?id=${encodeURIComponent(department.id)}"
+                                        class="search-result-btn"
+                                    >
+                                        View Details →
+                                    </a>
+
+                                    <a
+                                        href="navigation.html?type=department&id=${encodeURIComponent(department.id)}"
+                                        class="search-result-btn navigate-btn"
+                                    >
+                                        🧭 Navigate
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    `;
+
+                }
+
+            }
+
+
+            searchResults.innerHTML =
+                resultHTML;
+
+        }
+
+
+        /* =========================================
+           ESCAPE HTML
+           Prevents API data from directly becoming
+           HTML code.
+        ========================================= */
+
+        function escapeHTML(value) {
+
+            if (
+                value === null ||
+                value === undefined
+            ) {
+                return "";
+            }
+
+            return String(value)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+
+        }
+
+
+        /* =========================================
+           ENTER KEY SEARCH
+        ========================================= */
+
+        document
+            .getElementById("searchInput")
+            .addEventListener(
+                "keypress",
+                function(event) {
+
+                    if (event.key === "Enter") {
+
+                        performSearch();
+
+                    }
+
+                }
+            );
+
+
+        /* =========================================
+           LOGOUT
+        ========================================= */
+
+        function logout() {
+
+            localStorage.removeItem(
+                "isLoggedIn"
+            );
+
+            localStorage.removeItem(
+                "loggedInUserName"
+            );
+
+            localStorage.removeItem(
+                "smartCampusUser"
+            );
+
+            alert(
+                "You have been logged out."
+            );
+
+            window.location.href =
+                "login.html";
+
+        }
+
+
+        /* =========================================
+           DIRECT SEARCH FROM DASHBOARD
+        ========================================= */
+
+        const urlParams =
+            new URLSearchParams(
+                window.location.search
+            );
+
+
+        const urlSearchType =
+            urlParams.get("type");
+
+
+        /*
+            LOCATION:
+            search.html?type=location
+
+            FACULTY:
+            search.html?type=faculty
+
+            DEPARTMENT:
+            search.html?type=department
+
+            All three now directly open their
+            respective search screen.
+        */
+
+        if (
+            urlSearchType === "location" ||
+            urlSearchType === "faculty" ||
+            urlSearchType === "department"
+        ) {
+
+            directSearch = true;
+
+            selectSearchType(
+                urlSearchType
+            );
+
+        }
+
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,1382 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Faculty Details | Smart Campus Navigator
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
+    <script src="js/auth.js"></script>
+
+    <style>
+
+        /* ================= PAGE ================= */
+
+        body {
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+
+        /* ================= NAVBAR ================= */
+
+        .faculty-page .navbar {
+            height: 72px;
+            background: #ffffff;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 6%;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+
+        .faculty-page .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #123b78;
+            font-size: 18px;
+            font-weight: 800;
+            letter-spacing: 0.4px;
+        }
+
+
+        .faculty-page .navbar nav {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+
+        .faculty-page .navbar nav a {
+            text-decoration: none;
+            color: #475569;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 10px 15px;
+            border-radius: 8px;
+            transition: 0.25s ease;
+        }
+
+
+        .faculty-page .navbar nav a:hover {
+            background: #eef4ff;
+            color: #123b78;
+        }
+
+
+        .faculty-page .logout-btn {
+            border: none;
+            background: #123b78;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.25s ease;
+        }
+
+
+        .faculty-page .logout-btn:hover {
+            background: #0d2f63;
+        }
+
+
+        /* ================= HERO ================= */
+
+        .faculty-hero {
+            background: linear-gradient(
+                135deg,
+                #123b78,
+                #1d5fbf
+            );
+
+            padding: 52px 20px 70px;
+
+            text-align: center;
+
+            color: white;
+
+            position: relative;
+
+            overflow: hidden;
+        }
+
+
+        .faculty-hero::before {
+            content: "";
+
+            position: absolute;
+
+            width: 280px;
+            height: 280px;
+
+            border-radius: 50%;
+
+            background: rgba(
+                255,
+                255,
+                255,
+                0.06
+            );
+
+            top: -130px;
+            right: 8%;
+        }
+
+
+        .faculty-hero::after {
+            content: "";
+
+            position: absolute;
+
+            width: 200px;
+            height: 200px;
+
+            border-radius: 50%;
+
+            background: rgba(
+                255,
+                255,
+                255,
+                0.05
+            );
+
+            bottom: -110px;
+            left: 8%;
+        }
+
+
+        .faculty-hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+
+        .faculty-hero-icon {
+            width: 58px;
+            height: 58px;
+
+            margin: 0 auto 16px;
+
+            border-radius: 16px;
+
+            background: rgba(
+                255,
+                255,
+                255,
+                0.15
+            );
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 27px;
+
+            backdrop-filter: blur(5px);
+        }
+
+
+        .faculty-hero h1 {
+            font-size: 34px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+
+        .faculty-hero p {
+            font-size: 15px;
+            opacity: 0.88;
+        }
+
+
+        /* ================= MAIN ================= */
+
+        .faculty-details-container {
+            max-width: 1050px;
+
+            margin: -38px auto 60px;
+
+            padding: 0 20px;
+
+            position: relative;
+
+            z-index: 5;
+        }
+
+
+        /* ================= CARD ================= */
+
+        .faculty-detail-card {
+            background: white;
+
+            border-radius: 18px;
+
+            box-shadow:
+                0 15px 45px
+                rgba(
+                    15,
+                    23,
+                    42,
+                    0.10
+                );
+
+            overflow: hidden;
+
+            animation: facultyFadeUp 0.5s ease;
+        }
+
+
+        /* ================= TOP ================= */
+
+        .faculty-detail-top {
+            padding: 30px 32px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 18px;
+        }
+
+
+        .faculty-detail-icon {
+            width: 62px;
+            height: 62px;
+
+            border-radius: 15px;
+
+            background: #eef4ff;
+
+            color: #1754a6;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 29px;
+
+            flex-shrink: 0;
+        }
+
+
+        .faculty-detail-label {
+            color: #64748b;
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            letter-spacing: 0.7px;
+
+            margin-bottom: 5px;
+        }
+
+
+        .faculty-detail-top h1 {
+            color: #172554;
+
+            font-size: 26px;
+
+            margin-bottom: 8px;
+        }
+
+
+        .faculty-detail-badge {
+            display: inline-block;
+
+            background: #eaf2ff;
+
+            color: #1754a6;
+
+            padding: 6px 12px;
+
+            border-radius: 20px;
+
+            font-size: 12px;
+
+            font-weight: 700;
+        }
+
+
+        .faculty-detail-divider {
+            height: 1px;
+
+            background: #edf0f5;
+
+            margin: 0 32px;
+        }
+
+
+        /* ================= INFO ================= */
+
+        .faculty-info-grid {
+            padding: 30px 32px;
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 18px;
+        }
+
+
+        .faculty-info-box {
+            background: #f8fafc;
+
+            border: 1px solid #e8edf3;
+
+            border-radius: 12px;
+
+            padding: 18px;
+
+            display: flex;
+
+            align-items: flex-start;
+
+            gap: 13px;
+
+            transition: 0.25s ease;
+        }
+
+
+        .faculty-info-box:hover {
+            transform: translateY(-2px);
+
+            border-color: #cbdcf5;
+
+            box-shadow:
+                0 5px 15px
+                rgba(
+                    15,
+                    23,
+                    42,
+                    0.05
+                );
+        }
+
+
+        .faculty-info-box > span {
+            font-size: 21px;
+        }
+
+
+        .faculty-info-box p {
+            color: #64748b;
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.4px;
+
+            margin-bottom: 6px;
+        }
+
+
+        .faculty-info-box strong {
+            color: #172554;
+
+            font-size: 14px;
+
+            line-height: 1.5;
+
+            word-break: break-word;
+        }
+
+
+        /* ================= DEPARTMENT ================= */
+
+        .faculty-department-box {
+            margin: 0 32px 20px;
+
+            padding: 22px;
+
+            border-radius: 13px;
+
+            background: #f8fafc;
+
+            border: 1px solid #e8edf3;
+        }
+
+
+        .faculty-department-box h2,
+        .faculty-location-box h2 {
+            color: #172554;
+
+            font-size: 16px;
+
+            margin-bottom: 8px;
+        }
+
+
+        .faculty-department-box p,
+        .faculty-location-box p {
+            color: #475569;
+
+            font-size: 14px;
+
+            line-height: 1.7;
+        }
+
+
+        /* ================= LOCATION ================= */
+
+        .faculty-location-box {
+            margin: 0 32px 28px;
+
+            padding: 22px;
+
+            border-radius: 13px;
+
+            background: #f8fafc;
+
+            border: 1px solid #e8edf3;
+        }
+
+
+        /* ================= ACTIONS ================= */
+
+        .faculty-detail-actions {
+            padding: 0 32px 32px;
+
+            display: flex;
+
+            justify-content: flex-end;
+
+            gap: 12px;
+
+            flex-wrap: wrap;
+        }
+
+
+        .faculty-primary-btn {
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 8px;
+
+            padding: 12px 20px;
+
+            border-radius: 9px;
+
+            text-decoration: none;
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            background: #123b78;
+
+            color: white;
+
+            border: none;
+
+            cursor: pointer;
+
+            transition: 0.25s ease;
+        }
+
+
+        .faculty-primary-btn:hover {
+            background: #0d2f63;
+
+            transform: translateY(-2px);
+        }
+
+
+        .faculty-back-btn {
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 12px 20px;
+
+            border-radius: 9px;
+
+            text-decoration: none;
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            background: #f1f5f9;
+
+            color: #334155;
+
+            border: 1px solid #e2e8f0;
+
+            transition: 0.25s ease;
+        }
+
+
+        .faculty-back-btn:hover {
+            background: #e2e8f0;
+
+            transform: translateY(-2px);
+        }
+
+
+        /* ================= NOT FOUND ================= */
+
+        .faculty-not-found {
+            padding: 55px 25px;
+
+            text-align: center;
+        }
+
+
+        .faculty-not-found > div:first-child {
+            font-size: 45px;
+
+            margin-bottom: 15px;
+        }
+
+
+        .faculty-not-found h1 {
+            color: #172554;
+
+            font-size: 25px;
+
+            margin-bottom: 8px;
+        }
+
+
+        .faculty-not-found p {
+            color: #64748b;
+
+            font-size: 14px;
+
+            margin-bottom: 20px;
+        }
+
+
+        /* ================= FOOTER ================= */
+
+        .faculty-page footer {
+            background: white;
+
+            border-top: 1px solid #e5e7eb;
+
+            padding: 28px 20px;
+
+            text-align: center;
+        }
+
+
+        .faculty-page footer h3 {
+            color: #123b78;
+
+            font-size: 16px;
+
+            margin-bottom: 6px;
+        }
+
+
+        .faculty-page footer p {
+            color: #64748b;
+
+            font-size: 13px;
+        }
+
+
+        .faculty-page footer::after {
+            content:
+                "© 2026 Smart Campus Navigator";
+
+            display: block;
+
+            margin-top: 12px;
+
+            color: #94a3b8;
+
+            font-size: 11px;
+        }
+
+
+        /* ================= ANIMATION ================= */
+
+        @keyframes facultyFadeUp {
+
+            from {
+                opacity: 0;
+
+                transform:
+                    translateY(15px);
+            }
+
+            to {
+                opacity: 1;
+
+                transform:
+                    translateY(0);
+            }
+
+        }
+
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 850px) {
+
+            .faculty-info-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .faculty-page .navbar {
+                padding: 0 20px;
+            }
+
+            .faculty-page .navbar nav {
+                gap: 3px;
+            }
+
+            .faculty-page .navbar nav a {
+                padding: 8px 9px;
+
+                font-size: 12px;
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            .faculty-page .navbar {
+                height: auto;
+
+                padding: 14px 18px;
+
+                flex-wrap: wrap;
+
+                gap: 12px;
+            }
+
+
+            .faculty-page .navbar nav {
+                width: 100%;
+
+                justify-content: center;
+
+                flex-wrap: wrap;
+            }
+
+
+            .faculty-hero {
+                padding: 45px 20px 65px;
+            }
+
+
+            .faculty-hero h1 {
+                font-size: 26px;
+            }
+
+
+            .faculty-hero p {
+                font-size: 13px;
+            }
+
+
+            .faculty-details-container {
+                padding: 0 14px;
+            }
+
+
+            .faculty-detail-top {
+                padding: 23px;
+
+                align-items: flex-start;
+            }
+
+
+            .faculty-detail-top h1 {
+                font-size: 21px;
+            }
+
+
+            .faculty-detail-divider {
+                margin: 0 23px;
+            }
+
+
+            .faculty-info-grid {
+                padding: 23px;
+
+                grid-template-columns: 1fr;
+            }
+
+
+            .faculty-department-box,
+            .faculty-location-box {
+                margin-left: 23px;
+                margin-right: 23px;
+            }
+
+
+            .faculty-detail-actions {
+                padding:
+                    0 23px 23px;
+
+                flex-direction: column;
+            }
+
+
+            .faculty-primary-btn,
+            .faculty-back-btn {
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body class="faculty-page">
+
+
+    <!-- ================= NAVBAR ================= -->
+
+    <header class="navbar">
+
+        <div class="logo">
+            🏫 Smart Campus
+        </div>
+
+
+        <nav>
+
+            <a href="dashboard.html">
+                Dashboard
+            </a>
+
+            <a href="locations.html">
+                Locations
+            </a>
+
+            <a href="search.html?type=faculty">
+                Faculty
+            </a>
+
+            <a href="index.html">
+                Home
+            </a>
+
+            <button
+                class="logout-btn"
+                onclick="logout()"
+            >
+                Logout
+            </button>
+
+        </nav>
+
+    </header>
+
+
+    <!-- ================= HERO ================= -->
+
+    <section class="faculty-hero">
+
+        <div class="faculty-hero-content">
+
+            <div class="faculty-hero-icon">
+                👨‍🏫
+            </div>
+
+            <h1>
+                Smart Campus Navigator
+            </h1>
+
+            <p>
+                Faculty Details
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="faculty-details-container">
+
+
+        <section
+            class="faculty-detail-card"
+            id="facultyDetailCard"
+        >
+
+            <div
+                style="
+                    text-align:center;
+                    padding:40px;
+                "
+            >
+
+                <h2>
+                    Loading Faculty Details...
+                </h2>
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        <h3>
+            🏫 Smart Campus Navigator
+        </h3>
+
+        <p>
+            Smart way to explore your campus.
+        </p>
+
+    </footer>
+
+
+    <!-- ================= JAVASCRIPT ================= -->
+
+    <script>
+
+
+        // ==========================================
+        // CHECK LOGIN
+        // ==========================================
+
+        if(typeof checkLogin === "function")
+        {
+            checkLogin();
+        }
+
+
+        // ==========================================
+        // API
+        // ==========================================
+
+        const API_URL =
+            "http://127.0.0.1:8080/api/faculty";
+
+
+        // ==========================================
+        // GET FACULTY ID
+        // ==========================================
+
+        const urlParams =
+            new URLSearchParams(
+                window.location.search
+            );
+
+
+        const facultyId =
+            urlParams.get("id");
+
+
+        // ==========================================
+        // DETAIL CARD
+        // ==========================================
+
+        const detailCard =
+            document.getElementById(
+                "facultyDetailCard"
+            );
+
+
+        // ==========================================
+        // CHECK ID
+        // ==========================================
+
+        if(!facultyId)
+        {
+            showFacultyNotFound();
+        }
+        else
+        {
+            loadFacultyDetails();
+        }
+
+
+        // ==========================================
+        // LOAD FACULTY
+        // ==========================================
+
+        async function loadFacultyDetails()
+        {
+
+            try
+            {
+
+                const response =
+                    await fetch(
+                        API_URL +
+                        "?t=" +
+                        Date.now()
+                    );
+
+
+                if(!response.ok)
+                {
+
+                    throw new Error(
+                        "HTTP Error: " +
+                        response.status
+                    );
+
+                }
+
+
+                const data =
+                    await response.json();
+
+
+                console.log(
+                    "Faculty API:",
+                    data
+                );
+
+
+                if(
+                    !data ||
+                    !Array.isArray(
+                        data.faculty
+                    )
+                )
+                {
+
+                    throw new Error(
+                        "Invalid faculty API response"
+                    );
+
+                }
+
+
+                const selectedFaculty =
+                    data.faculty.find(
+                        function(member)
+                        {
+
+                            return (
+                                String(member.id)
+                                .trim()
+                                ===
+                                String(facultyId)
+                                .trim()
+                            );
+
+                        }
+                    );
+
+
+                if(!selectedFaculty)
+                {
+
+                    showFacultyNotFound();
+
+                    return;
+
+                }
+
+
+                displayFacultyDetails(
+                    selectedFaculty
+                );
+
+            }
+
+
+            catch(error)
+            {
+
+                console.error(
+                    "Faculty Details Error:",
+                    error
+                );
+
+
+                detailCard.innerHTML = `
+
+                    <div class="faculty-not-found">
+
+                        <div>
+                            ⚠️
+                        </div>
+
+                        <h1>
+                            Unable to Load Faculty
+                        </h1>
+
+                        <p>
+                            Please make sure the
+                            backend server is running.
+                        </p>
+
+                        <p>
+                            ${error.message}
+                        </p>
+
+                        <a
+                            href="search.html?type=faculty"
+                            class="faculty-primary-btn"
+                        >
+                            ← Back to Faculty Search
+                        </a>
+
+                    </div>
+
+                `;
+
+            }
+
+        }
+
+
+        // ==========================================
+        // DISPLAY DETAILS
+        // ==========================================
+
+        function displayFacultyDetails(
+            faculty
+        )
+        {
+
+            detailCard.innerHTML = `
+
+                <!-- TOP -->
+
+                <div class="faculty-detail-top">
+
+                    <div class="faculty-detail-icon">
+                        👨‍🏫
+                    </div>
+
+                    <div>
+
+                        <p class="faculty-detail-label">
+                            FACULTY DETAILS
+                        </p>
+
+                        <h1>
+                            ${faculty.name}
+                        </h1>
+
+                        <span class="faculty-detail-badge">
+                            ${faculty.designation || "Faculty"}
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="faculty-detail-divider">
+                </div>
+
+
+                <!-- INFORMATION -->
+
+                <div class="faculty-info-grid">
+
+
+                    <div class="faculty-info-box">
+
+                        <span>
+                            🆔
+                        </span>
+
+                        <div>
+
+                            <p>
+                                Faculty ID
+                            </p>
+
+                            <strong>
+                                ${faculty.id}
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="faculty-info-box">
+
+                        <span>
+                            🏢
+                        </span>
+
+                        <div>
+
+                            <p>
+                                Building
+                            </p>
+
+                            <strong>
+                                ${faculty.building || "N/A"}
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="faculty-info-box">
+
+                        <span>
+                            📶
+                        </span>
+
+                        <div>
+
+                            <p>
+                                Floor
+                            </p>
+
+                            <strong>
+                                ${faculty.floor ?? "N/A"}
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="faculty-info-box">
+
+                        <span>
+                            🚪
+                        </span>
+
+                        <div>
+
+                            <p>
+                                Room / Cabin
+                            </p>
+
+                            <strong>
+                                ${faculty.room || "N/A"}
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="faculty-info-box">
+
+                        <span>
+                            📚
+                        </span>
+
+                        <div>
+
+                            <p>
+                                Subject
+                            </p>
+
+                            <strong>
+                                ${faculty.subject || "N/A"}
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="faculty-info-box">
+
+                        <span>
+                            📧
+                        </span>
+
+                        <div>
+
+                            <p>
+                                Email
+                            </p>
+
+                            <strong>
+                                ${faculty.email || "N/A"}
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- DEPARTMENT -->
+
+                <div class="faculty-department-box">
+
+                    <h2>
+                        🎓 Department
+                    </h2>
+
+                    <p>
+                        ${faculty.department || "N/A"}
+                    </p>
+
+                </div>
+
+
+                <!-- LOCATION -->
+
+                <div class="faculty-location-box">
+
+                    <h2>
+                        📍 Faculty Location
+                    </h2>
+
+                    <p>
+
+                        ${faculty.name}
+                        is located in Building
+                        ${faculty.building || "N/A"},
+                        Floor
+                        ${faculty.floor ?? "N/A"},
+                        Room
+                        ${faculty.room || "N/A"}.
+
+                    </p>
+
+                </div>
+
+
+                <!-- ACTIONS -->
+
+                <div class="faculty-detail-actions">
+
+                    <a
+                        href="search.html?type=faculty"
+                        class="faculty-back-btn"
+                    >
+                        ← Back to Faculty Search
+                    </a>
+
+
+                    <a
+                        href="navigation.html?type=faculty&id=${encodeURIComponent(faculty.id)}"
+                        class="faculty-primary-btn"
+                    >
+                        🧭 Navigate
+                    </a>
+
+                </div>
+
+            `;
+
+        }
+
+
+        // ==========================================
+        // NOT FOUND
+        // ==========================================
+
+        function showFacultyNotFound()
+        {
+
+            detailCard.innerHTML = `
+
+                <div class="faculty-not-found">
+
+                    <div>
+                        🔍
+                    </div>
+
+                    <h1>
+                        Faculty Not Found
+                    </h1>
+
+                    <p>
+                        The requested faculty member
+                        could not be found.
+                    </p>
+
+                    <a
+                        href="search.html?type=faculty"
+                        class="faculty-primary-btn"
+                    >
+                        ← Back to Faculty Search
+                    </a>
+
+                </div>
+
+            `;
+
+        }
+
+
+        // ==========================================
+        // LOGOUT
+        // ==========================================
+
+        function logout()
+        {
+
+            localStorage.removeItem(
+                "isLoggedIn"
+            );
+
+
+            localStorage.removeItem(
+                "loggedInUserName"
+            );
+
+
+            localStorage.removeItem(
+                "smartCampusUser"
+            );
+
+
+            alert(
+                "You have been logged out."
+            );
+
+
+            window.location.href =
+                "login.html";
+
+        }
+
+    </script>
+
+</body>
+
+</html>

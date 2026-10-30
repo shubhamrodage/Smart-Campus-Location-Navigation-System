@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Student Login | Smart Campus Navigator</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f6fa;
+            min-height: 100vh;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            padding: 35px;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 1200px;
+            min-height: 680px;
+
+            display: grid;
+            grid-template-columns: 55% 45%;
+
+            background: white;
+
+            border-radius: 12px;
+            overflow: hidden;
+
+            box-shadow: 0 12px 35px rgba(0,0,0,0.12);
+
+            animation: appear 0.5s ease;
+        }
+
+
+        /* =========================
+           LEFT SIDE
+        ========================= */
+
+        .login-left {
+            background: white;
+
+            padding: 80px;
+
+            display: flex;
+            align-items: center;
+        }
+
+        .login-form {
+            width: 100%;
+            max-width: 620px;
+        }
+
+        .login-title {
+            font-size: 50px;
+            font-weight: 600;
+
+            color: #123a91;
+
+            margin-bottom: 15px;
+        }
+
+        .login-subtitle {
+            font-size: 22px;
+
+            color: #7c858f;
+
+            margin-bottom: 45px;
+        }
+
+
+        /* =========================
+           INPUT
+        ========================= */
+
+        .input-box {
+            height: 68px;
+            width: 100%;
+
+            display: flex;
+            align-items: center;
+
+            border: 1px solid #d8dce0;
+            border-radius: 7px;
+
+            margin-bottom: 24px;
+
+            overflow: hidden;
+
+            transition: 0.25s;
+
+            background: white;
+        }
+
+        .input-box:focus-within {
+            border-color: #123a91;
+
+            box-shadow:
+                0 0 0 3px rgba(18,58,145,0.10);
+        }
+
+        .input-icon {
+            width: 70px;
+            height: 100%;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            background: #eef3ff;
+
+            border-right: 1px solid #d8dce0;
+
+            font-size: 24px;
+
+            flex-shrink: 0;
+        }
+
+        .input-box input {
+            flex: 1;
+
+            width: 100%;
+            height: 100%;
+
+            border: none;
+            outline: none;
+
+            padding: 0 20px;
+
+            font-size: 19px;
+
+            color: #26384f;
+
+            background: transparent;
+        }
+
+        /* =========================
+           WATERMARK / PLACEHOLDER
+        ========================= */
+
+        .input-box input::placeholder {
+            color: #9aa1aa !important;
+
+            opacity: 1 !important;
+
+            visibility: visible !important;
+
+            font-size: 18px;
+        }
+
+
+        /* =========================
+           SHOW PASSWORD
+        ========================= */
+
+        .show-password {
+            display: flex;
+            align-items: center;
+
+            gap: 10px;
+
+            margin: 8px 0 38px;
+
+            font-size: 17px;
+
+            color: #4e555c;
+
+            cursor: pointer;
+        }
+
+        .show-password input {
+            width: 19px;
+            height: 19px;
+
+            accent-color: #123a91;
+        }
+
+
+        /* =========================
+           ACTIONS
+        ========================= */
+
+        .login-actions {
+            display: flex;
+            align-items: center;
+
+            gap: 70px;
+        }
+
+        .login-btn {
+            width: 190px;
+            height: 58px;
+
+            border: none;
+            border-radius: 7px;
+
+            background: linear-gradient(
+                135deg,
+                #123a91,
+                #07549a
+            );
+
+            color: white;
+
+            font-size: 19px;
+
+            cursor: pointer;
+
+            transition: 0.25s;
+        }
+
+        .login-btn:hover {
+            background: linear-gradient(
+                135deg,
+                #0d2e76,
+                #06467f
+            );
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 8px 18px rgba(18,58,145,0.25);
+        }
+
+        .forgot-password {
+            color: #123a91;
+
+            text-decoration: none;
+
+            font-size: 17px;
+        }
+
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+
+
+        /* =========================
+           REGISTER
+        ========================= */
+
+        .register-text {
+            margin-top: 35px;
+
+            color: #7c858f;
+
+            font-size: 16px;
+        }
+
+        .register-text a {
+            color: #123a91;
+
+            font-weight: 600;
+
+            text-decoration: none;
+        }
+
+        .register-text a:hover {
+            text-decoration: underline;
+        }
+
+
+        /* =========================
+           RIGHT SIDE
+        ========================= */
+
+        .login-right {
+            background: linear-gradient(
+                145deg,
+                #123a91 0%,
+                #07549a 55%,
+                #0c67b7 100%
+            );
+
+            color: white;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            text-align: center;
+
+            padding: 55px;
+
+            position: relative;
+
+            overflow: hidden;
+        }
+
+
+        /* Decorative circles */
+
+        .login-right::before {
+            content: "";
+
+            position: absolute;
+
+            width: 320px;
+            height: 320px;
+
+            border-radius: 50%;
+
+            background: rgba(255,255,255,0.06);
+
+            top: -150px;
+            right: -120px;
+        }
+
+        .login-right::after {
+            content: "";
+
+            position: absolute;
+
+            width: 230px;
+            height: 230px;
+
+            border-radius: 50%;
+
+            background: rgba(255,255,255,0.05);
+
+            bottom: -120px;
+            left: -90px;
+        }
+
+
+        /* =========================
+           COLLEGE NAME
+        ========================= */
+
+        .college-name {
+            position: absolute;
+
+            top: 35px;
+
+            left: 25px;
+            right: 25px;
+
+            text-align: center;
+
+            color: white;
+
+            font-size: 21px;
+
+            font-weight: 700;
+
+            letter-spacing: 1.2px;
+
+            line-height: 1.4;
+
+            z-index: 5;
+        }
+
+        .college-name span {
+            display: block;
+
+            font-size: 16px;
+
+            font-weight: 500;
+
+            letter-spacing: 5px;
+
+            margin-top: 5px;
+        }
+
+
+        /* =========================
+           RIGHT CONTENT
+        ========================= */
+
+        .right-content {
+            max-width: 430px;
+
+            position: relative;
+
+            z-index: 2;
+
+            margin-top: 100px;
+        }
+
+        .campus-icon {
+            width: 82px;
+            height: 82px;
+
+            margin: 0 auto 24px;
+
+            border: 2px solid rgba(255,255,255,0.7);
+
+            border-radius: 15px;
+
+            display: flex;
+
+            justify-content: center;
+            align-items: center;
+
+            font-size: 38px;
+
+            background: rgba(255,255,255,0.08);
+
+            animation: floating 3s ease-in-out infinite;
+        }
+
+        .right-title {
+            font-size: 30px;
+
+            font-weight: 600;
+
+            letter-spacing: 2px;
+        }
+
+        .right-subtitle {
+            font-size: 21px;
+
+            font-weight: 300;
+
+            letter-spacing: 5px;
+
+            margin-top: 8px;
+        }
+
+        .right-line {
+            width: 90px;
+            height: 2px;
+
+            background: rgba(255,255,255,0.8);
+
+            margin: 28px auto;
+        }
+
+        .right-description {
+            font-size: 18px;
+
+            line-height: 1.7;
+
+            margin-bottom: 45px;
+
+            color: rgba(255,255,255,0.92);
+        }
+
+
+        /* =========================
+           HOME BUTTON
+        ========================= */
+
+        .home-btn {
+            display: inline-flex;
+
+            align-items: center;
+            justify-content: center;
+
+            gap: 10px;
+
+            min-width: 190px;
+            height: 58px;
+
+            border: 2px solid rgba(255,255,255,0.75);
+
+            border-radius: 7px;
+
+            color: white;
+
+            text-decoration: none;
+
+            font-size: 19px;
+
+            transition: 0.25s;
+        }
+
+        .home-btn:hover {
+            background: white;
+
+            color: #123a91;
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 8px 18px rgba(0,0,0,0.12);
+        }
+
+
+        /* =========================
+           ANIMATION
+        ========================= */
+
+        @keyframes appear {
+
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+        }
+
+        @keyframes floating {
+
+            0%, 100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-6px);
+            }
+
+        }
+
+
+        /* =========================
+           TABLET
+        ========================= */
+
+        @media (max-width: 900px) {
+
+            body {
+                padding: 20px;
+            }
+
+            .login-container {
+                grid-template-columns: 1fr;
+
+                max-width: 650px;
+            }
+
+            .login-left {
+                padding: 55px 45px;
+            }
+
+            .login-right {
+                min-height: 500px;
+            }
+
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 600px) {
+
+            body {
+                padding: 10px;
+            }
+
+            .login-left {
+                padding: 40px 25px;
+            }
+
+            .login-title {
+                font-size: 36px;
+            }
+
+            .login-subtitle {
+                font-size: 18px;
+            }
+
+            .login-actions {
+                flex-direction: column;
+
+                align-items: flex-start;
+
+                gap: 18px;
+            }
+
+            .login-btn {
+                width: 100%;
+            }
+
+            .login-right {
+                padding: 80px 25px 40px;
+            }
+
+            .college-name {
+                font-size: 12px;
+
+                top: 22px;
+            }
+
+            .college-name span {
+                font-size: 11px;
+
+                letter-spacing: 3px;
+            }
+
+            .right-content {
+                margin-top: 90px;
+            }
+
+            .right-title {
+                font-size: 25px;
+            }
+
+            .right-subtitle {
+                font-size: 18px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div class="login-container">
+
+
+        <!-- =========================
+             LEFT SIDE
+        ========================== -->
+
+        <div class="login-left">
+
+            <div class="login-form">
+
+
+                <h1 class="login-title">
+                    Student Login
+                </h1>
+
+
+                <p class="login-subtitle">
+                    Sign In to your account
+                </p>
+
+
+                <!-- EMAIL -->
+
+                <div class="input-box">
+
+                    <div class="input-icon">
+                        👤
+                    </div>
+
+                    <input
+                        type="email"
+                        id="email"
+                        placeholder="Enter your email"
+                        autocomplete="off"
+                        autocapitalize="none"
+                        spellcheck="false">
+
+                </div>
+
+
+                <!-- PASSWORD -->
+
+                <div class="input-box">
+
+                    <div class="input-icon">
+                        🔒
+                    </div>
+
+                    <input
+                        type="password"
+                        id="password"
+                        placeholder="Enter your password"
+                        autocomplete="new-password">
+
+                </div>
+
+
+                <!-- SHOW PASSWORD -->
+
+                <label class="show-password">
+
+                    <input
+                        type="checkbox"
+                        id="showPassword">
+
+                    Show Password
+
+                </label>
+
+
+                <!-- LOGIN -->
+
+                <div class="login-actions">
+
+                    <button
+                        class="login-btn"
+                        id="loginButton">
+
+                        ⇥ &nbsp; Login
+
+                    </button>
+
+
+                    <a
+                        href="#"
+                        class="forgot-password"
+                        id="forgotPassword">
+
+                        Forgot password?
+
+                    </a>
+
+                </div>
+
+
+                <!-- REGISTER -->
+
+                <p class="register-text">
+
+                    Don't have an account?
+
+                    <a href="register.html">
+                        Sign Up
+                    </a>
+
+                </p>
+
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             RIGHT SIDE
+        ========================== -->
+
+        <div class="login-right">
+
+
+            <!-- COLLEGE NAME -->
+
+            <div class="college-name">
+
+                VISHWAKARMA INSTITUTE OF TECHNOLOGY
+
+                <span>
+                    PUNE
+                </span>
+
+            </div>
+
+
+            <!-- RIGHT CONTENT -->
+
+            <div class="right-content">
+
+
+                <div class="campus-icon">
+                    🏫
+                </div>
+
+
+                <h2 class="right-title">
+                    SMART CAMPUS
+                </h2>
+
+
+                <h3 class="right-subtitle">
+                    NAVIGATOR
+                </h3>
+
+
+                <div class="right-line"></div>
+
+
+                <p class="right-description">
+
+                    We make it easy for students
+                    to find campus locations,
+                    faculty, departments and
+                    buildings quickly and easily.
+
+                </p>
+
+
+                <a
+                    href="index.html"
+                    class="home-btn">
+
+                    🏠 &nbsp; Home
+
+                </a>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+
+        /* =========================
+           SHOW PASSWORD
+        ========================= */
+
+        document
+        .getElementById("showPassword")
+        .addEventListener("change", function () {
+
+            document.getElementById("password").type =
+                this.checked ? "text" : "password";
+
+        });
+
+
+        /* =========================
+           FORGOT PASSWORD
+        ========================= */
+
+        document
+        .getElementById("forgotPassword")
+        .addEventListener("click", function (event) {
+
+            event.preventDefault();
+
+            alert(
+                "Please contact the campus administrator to reset your password."
+            );
+
+        });
+
+
+        /* =========================
+           LOGIN
+        ========================= */
+
+        document
+        .getElementById("loginButton")
+        .addEventListener("click", function () {
+
+            const email =
+                document
+                .getElementById("email")
+                .value
+                .trim();
+
+            const password =
+                document
+                .getElementById("password")
+                .value;
+
+
+            const savedUser =
+                localStorage.getItem(
+                    "smartCampusUser"
+                );
+
+
+            if (!savedUser) {
+
+                alert(
+                    "No account found. Please register first."
+                );
+
+                return;
+
+            }
+
+
+            const user =
+                JSON.parse(savedUser);
+
+
+            if (
+                email === user.email &&
+                password === user.password
+            ) {
+
+                localStorage.setItem(
+                    "isLoggedIn",
+                    "true"
+                );
+
+                localStorage.setItem(
+                    "loggedInUserName",
+                    user.name
+                );
+
+                alert(
+                    "Login successful!"
+                );
+
+                window.location.href =
+                    "dashboard.html";
+
+            }
+
+            else {
+
+                alert(
+                    "Invalid email or password."
+                );
+
+            }
+
+        });
+
+
+        /* =========================
+           CLEAR AUTOFILL VALUES
+           ONLY WHEN PAGE LOADS
+        ========================= */
+
+        window.addEventListener("load", function () {
+
+            setTimeout(function () {
+
+                const email =
+                    document.getElementById("email");
+
+                const password =
+                    document.getElementById("password");
+
+                if (email && email.value !== "") {
+                    email.value = "";
+                }
+
+                if (password && password.value !== "") {
+                    password.value = "";
+                }
+
+            }, 100);
+
+        });
+
+    </script>
+
+
+</body>
+
+</html>

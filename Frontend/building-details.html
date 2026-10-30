@@ -1,0 +1,1478 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Building Details - Smart Campus Navigator
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
+    <script src="js/auth.js"></script>
+
+    <style>
+
+        /* =========================================
+           PAGE
+        ========================================= */
+
+        body {
+            margin: 0;
+            background: #f5f7fb;
+            color: #172033;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+
+        /* =========================================
+           NAVBAR
+        ========================================= */
+
+        .building-details-navbar {
+
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+
+            height: 72px;
+
+            background: rgba(255,255,255,0.97);
+
+            backdrop-filter: blur(12px);
+
+            border-bottom: 1px solid #e7eaf0;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 7%;
+        }
+
+
+        .building-details-brand {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+
+        .building-details-brand-main {
+            font-size: 20px;
+            font-weight: 800;
+            color: #123c88;
+        }
+
+
+        .building-details-brand-sub {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: #7b8496;
+        }
+
+
+        .building-details-nav {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+
+        .building-details-nav a {
+            text-decoration: none;
+            color: #4d5668;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+
+        .building-details-nav a:hover {
+            color: #1557c0;
+        }
+
+
+        .logout-btn {
+            border: none;
+            background: #1557c0;
+            color: white;
+
+            padding: 10px 18px;
+
+            border-radius: 8px;
+
+            font-size: 13px;
+            font-weight: 700;
+
+            cursor: pointer;
+        }
+
+
+        .logout-btn:hover {
+            background: #0d3f91;
+        }
+
+
+        /* =========================================
+           MAIN CONTAINER
+        ========================================= */
+
+        .building-details-container {
+
+            max-width: 1050px;
+
+            margin: 0 auto;
+
+            padding: 45px 20px 70px;
+        }
+
+
+        /* =========================================
+           BACK BUTTON
+        ========================================= */
+
+        .building-details-back {
+            margin-bottom: 20px;
+        }
+
+
+        .building-details-back a {
+
+            display: inline-block;
+
+            text-decoration: none;
+
+            color: #1557c0;
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            padding: 10px 15px;
+
+            background: #eef4ff;
+
+            border-radius: 8px;
+        }
+
+
+        .building-details-back a:hover {
+            background: #e0ecff;
+        }
+
+
+        /* =========================================
+           DETAIL CARD
+        ========================================= */
+
+        .building-detail-card {
+
+            background: white;
+
+            border-radius: 20px;
+
+            padding: 35px;
+
+            border: 1px solid #e5e9f0;
+
+            box-shadow:
+                0 12px 35px rgba(20,40,80,0.08);
+        }
+
+
+        /* =========================================
+           TOP
+        ========================================= */
+
+        .building-detail-top {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 20px;
+
+            margin-bottom: 25px;
+        }
+
+
+        .building-detail-icon {
+
+            width: 70px;
+            height: 70px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            background: #eef5ff;
+
+            border-radius: 17px;
+
+            font-size: 35px;
+
+            flex-shrink: 0;
+        }
+
+
+        .building-detail-label {
+
+            margin: 0 0 5px;
+
+            font-size: 11px;
+
+            font-weight: 800;
+
+            letter-spacing: 2px;
+
+            color: #7b8496;
+        }
+
+
+        .building-detail-top h1 {
+
+            margin: 0 0 8px;
+
+            font-size: 32px;
+
+            color: #1d2a40;
+        }
+
+
+        .building-detail-badge {
+
+            display: inline-block;
+
+            padding: 6px 12px;
+
+            border-radius: 20px;
+
+            background: #edf4ff;
+
+            color: #1557c0;
+
+            font-size: 12px;
+
+            font-weight: 800;
+        }
+
+
+        /* =========================================
+           DIVIDER
+        ========================================= */
+
+        .building-detail-divider {
+
+            height: 1px;
+
+            background: #e8ebf1;
+
+            margin-bottom: 25px;
+        }
+
+
+        /* =========================================
+           INFORMATION GRID
+        ========================================= */
+
+        .building-info-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
+            gap: 15px;
+
+            margin-bottom: 25px;
+        }
+
+
+        .building-info-box {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 14px;
+
+            padding: 17px;
+
+            background: #f8faff;
+
+            border: 1px solid #e7ecf4;
+
+            border-radius: 12px;
+        }
+
+
+        .building-info-box > span {
+
+            width: 42px;
+            height: 42px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            background: white;
+
+            border-radius: 10px;
+
+            font-size: 20px;
+        }
+
+
+        .building-info-box small {
+
+            display: block;
+
+            color: #7d8797;
+
+            font-size: 10px;
+
+            font-weight: 700;
+
+            text-transform: uppercase;
+
+            margin-bottom: 4px;
+        }
+
+
+        .building-info-box strong {
+
+            color: #27334a;
+
+            font-size: 15px;
+        }
+
+
+        /* =========================================
+           DESCRIPTION
+        ========================================= */
+
+        .building-description-box,
+        .building-department-box,
+        .building-floor-box {
+
+            border: 1px solid #e7ebf2;
+
+            background: #fafbfe;
+
+            border-radius: 14px;
+
+            padding: 22px;
+
+            margin-bottom: 18px;
+        }
+
+
+        .building-description-box h3,
+        .building-department-box h3,
+        .building-floor-box h3 {
+
+            margin: 0 0 10px;
+
+            font-size: 17px;
+
+            color: #243149;
+        }
+
+
+        .building-description-box p,
+        .building-department-box p {
+
+            margin: 0;
+
+            color: #687386;
+
+            font-size: 14px;
+
+            line-height: 1.7;
+        }
+
+
+        /* =========================================
+           FLOOR LIST
+        ========================================= */
+
+        .floor-list {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
+            gap: 12px;
+        }
+
+
+        .floor-item {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 14px;
+
+            padding: 14px;
+
+            background: white;
+
+            border: 1px solid #e6eaf1;
+
+            border-radius: 10px;
+        }
+
+
+        .floor-item > span {
+
+            width: 38px;
+            height: 38px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            background: #eef4ff;
+
+            color: #1557c0;
+
+            border-radius: 9px;
+
+            font-size: 14px;
+
+            font-weight: 800;
+        }
+
+
+        .floor-item strong {
+
+            display: block;
+
+            color: #28344b;
+
+            font-size: 13px;
+
+            margin-bottom: 3px;
+        }
+
+
+        .floor-item p {
+
+            margin: 0;
+
+            color: #7b8494;
+
+            font-size: 11px;
+
+            line-height: 1.5;
+        }
+
+
+        /* =========================================
+           ACTIONS
+        ========================================= */
+
+        .building-detail-actions {
+
+            display: flex;
+
+            gap: 12px;
+
+            margin-top: 25px;
+        }
+
+
+        .building-detail-actions a {
+
+            flex: 1;
+
+            text-align: center;
+
+            text-decoration: none;
+
+            padding: 13px 15px;
+
+            border-radius: 9px;
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            transition: 0.2s ease;
+        }
+
+
+        .building-primary-btn {
+
+            background: #1557c0;
+
+            color: white;
+        }
+
+
+        .building-primary-btn:hover {
+
+            background: #0d3f91;
+        }
+
+
+        .building-secondary-btn {
+
+            background: #eef4ff;
+
+            color: #1557c0;
+
+            border: 1px solid #dce8fa;
+        }
+
+
+        .building-secondary-btn:hover {
+
+            background: #e1edff;
+        }
+
+
+        /* =========================================
+           NOT FOUND
+        ========================================= */
+
+        .building-not-found {
+
+            background: white;
+
+            border-radius: 18px;
+
+            padding: 55px 25px;
+
+            text-align: center;
+
+            border: 1px solid #e5e9f0;
+
+            box-shadow:
+                0 10px 30px rgba(20,40,80,0.07);
+        }
+
+
+        .building-not-found-icon {
+
+            font-size: 48px;
+
+            margin-bottom: 12px;
+        }
+
+
+        .building-not-found h2 {
+
+            margin: 0 0 8px;
+
+            color: #27334a;
+        }
+
+
+        .building-not-found p {
+
+            margin: 0 0 20px;
+
+            color: #778195;
+
+            font-size: 14px;
+        }
+
+
+        .building-not-found a {
+
+            display: inline-block;
+
+            text-decoration: none;
+
+            background: #1557c0;
+
+            color: white;
+
+            padding: 11px 18px;
+
+            border-radius: 8px;
+
+            font-size: 13px;
+
+            font-weight: 700;
+        }
+
+
+        /* =========================================
+           FOOTER
+        ========================================= */
+
+        footer {
+
+            background: #0e1d38;
+
+            color: white;
+
+            text-align: center;
+
+            padding: 35px 20px;
+        }
+
+
+        footer h3 {
+
+            margin: 0 0 8px;
+
+            font-size: 17px;
+        }
+
+
+        footer p {
+
+            margin: 0;
+
+            color: #aeb8c9;
+
+            font-size: 13px;
+        }
+
+
+        /* =========================================
+           MOBILE
+        ========================================= */
+
+        @media(max-width: 768px) {
+
+            .building-details-navbar {
+
+                padding: 0 20px;
+            }
+
+
+            .building-details-nav {
+
+                gap: 10px;
+            }
+
+
+            .building-details-nav a {
+
+                display: none;
+            }
+
+
+            .building-details-container {
+
+                padding: 30px 15px 50px;
+            }
+
+
+            .building-detail-card {
+
+                padding: 22px;
+            }
+
+
+            .building-detail-top h1 {
+
+                font-size: 26px;
+            }
+
+
+            .building-info-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+
+            .floor-list {
+
+                grid-template-columns: 1fr;
+            }
+
+
+            .building-detail-actions {
+
+                flex-direction: column;
+            }
+
+        }
+
+
+        @media(max-width: 480px) {
+
+            .building-detail-top {
+
+                align-items: flex-start;
+
+                flex-direction: column;
+            }
+
+
+            .building-detail-icon {
+
+                width: 60px;
+                height: 60px;
+
+                font-size: 30px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================================
+         NAVBAR
+    ========================================== -->
+
+    <header class="building-details-navbar">
+
+        <div class="building-details-brand">
+
+            <div class="building-details-brand-main">
+                SMART CAMPUS
+            </div>
+
+            <div class="building-details-brand-sub">
+                VIT PUNE
+            </div>
+
+        </div>
+
+
+        <nav class="building-details-nav">
+
+            <a href="dashboard.html">
+                Dashboard
+            </a>
+
+            <a href="buildings.html">
+                Buildings
+            </a>
+
+            <a href="index.html">
+                Home
+            </a>
+
+            <button
+                class="logout-btn"
+                onclick="logout()"
+            >
+                Logout
+            </button>
+
+        </nav>
+
+    </header>
+
+
+
+    <!-- =========================================
+         MAIN
+    ========================================== -->
+
+    <main class="building-details-container">
+
+
+        <!-- BACK -->
+
+        <div class="building-details-back">
+
+            <a href="buildings.html">
+                ← Back to Building Explorer
+            </a>
+
+        </div>
+
+
+
+        <!-- DETAILS -->
+
+        <section
+            id="buildingDetails"
+            class="building-detail-card"
+        >
+
+            <div style="text-align:center; padding:40px;">
+
+                <h2>
+                    Loading Building Details...
+                </h2>
+
+                <p>
+                    Please wait while building information is loaded.
+                </p>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- NOT FOUND -->
+
+        <section
+            id="buildingNotFound"
+            class="building-not-found"
+            style="display:none;"
+        >
+
+            <div class="building-not-found-icon">
+                🔍
+            </div>
+
+
+            <h2>
+                Building Not Found
+            </h2>
+
+
+            <p>
+                The requested building could not be found.
+            </p>
+
+
+            <a href="buildings.html">
+                ← Back to Building Explorer
+            </a>
+
+        </section>
+
+    </main>
+
+
+
+    <!-- =========================================
+         FOOTER
+    ========================================== -->
+
+    <footer>
+
+        <h3>
+            🏫 Smart Campus Navigator
+        </h3>
+
+        <p>
+            Smart way to explore your campus.
+        </p>
+
+    </footer>
+
+
+
+    <!-- =========================================
+         JAVASCRIPT
+    ========================================= -->
+
+    <script>
+
+
+        /* =========================================
+           LOGIN CHECK
+        ========================================= */
+
+        if (
+            typeof checkLogin === "function"
+        ) {
+
+            checkLogin();
+
+        }
+
+
+
+        /* =========================================
+           API
+        ========================================= */
+
+        const API_URL =
+            "http://127.0.0.1:8080/api/buildings";
+
+
+
+        /* =========================================
+           URL BUILDING ID
+        ========================================= */
+
+        const urlParams =
+            new URLSearchParams(
+                window.location.search
+            );
+
+
+        const buildingId =
+            urlParams.get("id");
+
+
+
+        /* =========================================
+           ELEMENTS
+        ========================================= */
+
+        const buildingDetails =
+            document.getElementById(
+                "buildingDetails"
+            );
+
+
+        const buildingNotFound =
+            document.getElementById(
+                "buildingNotFound"
+            );
+
+
+
+        /* =========================================
+           SHOW NOT FOUND
+        ========================================= */
+
+        function showBuildingNotFound() {
+
+            buildingDetails.style.display =
+                "none";
+
+            buildingNotFound.style.display =
+                "block";
+
+        }
+
+
+
+        /* =========================================
+           ESCAPE HTML
+        ========================================= */
+
+        function escapeHTML(value) {
+
+            return String(value ?? "")
+
+                .replace(
+                    /&/g,
+                    "&amp;"
+                )
+
+                .replace(
+                    /</g,
+                    "&lt;"
+                )
+
+                .replace(
+                    />/g,
+                    "&gt;"
+                )
+
+                .replace(
+                    /"/g,
+                    "&quot;"
+                )
+
+                .replace(
+                    /'/g,
+                    "&#039;"
+                );
+
+        }
+
+
+
+        /* =========================================
+           GENERATE FLOORS
+        ========================================= */
+
+        function generateFloors(floorCount) {
+
+            const count =
+                Number(floorCount) || 0;
+
+
+            if (count <= 0) {
+
+                return `
+
+                    <div class="floor-item">
+
+                        <span>
+                            -
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Coming Soon
+                            </strong>
+
+                            <p>
+                                Floor information will be available soon.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            }
+
+
+            let floorHTML = "";
+
+
+            for (
+                let i = 1;
+                i <= count;
+                i++
+            ) {
+
+                let description =
+                    "Academic facilities";
+
+
+                if (i === count) {
+
+                    description =
+                        "CSE classrooms, laboratories and faculty cabins";
+
+                }
+
+
+                floorHTML += `
+
+                    <div class="floor-item">
+
+                        <span>
+                            ${i}
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Floor ${i}
+                            </strong>
+
+                            <p>
+                                ${escapeHTML(description)}
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            }
+
+
+            return floorHTML;
+
+        }
+
+
+
+        /* =========================================
+           LOAD BUILDING DETAILS
+        ========================================= */
+
+        async function loadBuildingDetails() {
+
+            if (!buildingId) {
+
+                showBuildingNotFound();
+
+                return;
+
+            }
+
+
+            console.log(
+                "Requested Building ID:",
+                buildingId
+            );
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        API_URL +
+                        "?t=" +
+                        Date.now()
+                    );
+
+
+                console.log(
+                    "Building API Status:",
+                    response.status
+                );
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Failed to fetch buildings"
+                    );
+
+                }
+
+
+                const data =
+                    await response.json();
+
+
+                console.log(
+                    "Building API Response:",
+                    data
+                );
+
+
+                let buildings = [];
+
+
+                if (Array.isArray(data)) {
+
+                    buildings = data;
+
+                }
+                else if (
+                    data &&
+                    Array.isArray(data.buildings)
+                ) {
+
+                    buildings =
+                        data.buildings;
+
+                }
+
+
+                const building =
+                    buildings.find(
+                        function(item) {
+
+                            return String(
+                                item.id ?? ""
+                            ).trim().toLowerCase()
+                            ===
+                            String(
+                                buildingId
+                            ).trim().toLowerCase();
+
+                        }
+                    );
+
+
+                console.log(
+                    "Selected Building:",
+                    building
+                );
+
+
+                if (!building) {
+
+                    showBuildingNotFound();
+
+                    return;
+
+                }
+
+
+                const id =
+                    String(
+                        building.id ?? "-"
+                    );
+
+
+                const name =
+                    String(
+                        building.name ??
+                        "Unknown Building"
+                    );
+
+
+                const code =
+                    String(
+                        building.code ??
+                        "-"
+                    );
+
+
+                const floors =
+                    Number(
+                        building.floors ?? 0
+                    );
+
+
+                const description =
+                    String(
+                        building.description ??
+                        "Campus building information."
+                    );
+
+
+                buildingDetails.innerHTML = `
+
+                    <div class="building-detail-top">
+
+                        <div class="building-detail-icon">
+                            🏫
+                        </div>
+
+
+                        <div>
+
+                            <p class="building-detail-label">
+                                BUILDING DETAILS
+                            </p>
+
+
+                            <h1>
+                                ${escapeHTML(name)}
+                            </h1>
+
+
+                            <span class="building-detail-badge">
+                                Block ${escapeHTML(code)}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="building-detail-divider"></div>
+
+
+                    <div class="building-info-grid">
+
+
+                        <div class="building-info-box">
+
+                            <span>
+                                🆔
+                            </span>
+
+                            <div>
+
+                                <small>
+                                    Building ID
+                                </small>
+
+                                <strong>
+                                    ${escapeHTML(id)}
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="building-info-box">
+
+                            <span>
+                                🏢
+                            </span>
+
+                            <div>
+
+                                <small>
+                                    Building Code
+                                </small>
+
+                                <strong>
+                                    ${escapeHTML(code)}
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="building-info-box">
+
+                            <span>
+                                📶
+                            </span>
+
+                            <div>
+
+                                <small>
+                                    Total Floors
+                                </small>
+
+                                <strong>
+                                    ${floors}
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="building-info-box">
+
+                            <span>
+                                📍
+                            </span>
+
+                            <div>
+
+                                <small>
+                                    Block
+                                </small>
+
+                                <strong>
+                                    Block ${escapeHTML(code)}
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="building-description-box">
+
+                        <h3>
+                            📄 Building Description
+                        </h3>
+
+
+                        <p>
+                            ${escapeHTML(description)}
+                        </p>
+
+                    </div>
+
+
+                    <div class="building-department-box">
+
+                        <h3>
+                            🎓 Main Area
+                        </h3>
+
+
+                        <p>
+                            Academic facilities and campus resources
+                        </p>
+
+                    </div>
+
+
+                    <div class="building-floor-box">
+
+                        <h3>
+                            📶 Available Floors
+                        </h3>
+
+
+                        <div class="floor-list">
+
+                            ${generateFloors(floors)}
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="building-detail-actions">
+
+
+                        <a
+                            href="buildings.html"
+                            class="building-primary-btn"
+                        >
+                            ← Back to Building Explorer
+                        </a>
+
+
+                        <a
+                            href="navigation.html?type=building&id=${encodeURIComponent(id)}"
+                            class="building-secondary-btn"
+                        >
+                            🧭 Navigate
+                        </a>
+
+                    </div>
+
+                `;
+
+            }
+            catch (error) {
+
+                console.error(
+                    "Building Details Error:",
+                    error
+                );
+
+
+                showBuildingNotFound();
+
+            }
+
+        }
+
+
+
+        /* =========================================
+           LOGOUT
+        ========================================= */
+
+        function logout() {
+
+            localStorage.removeItem(
+                "isLoggedIn"
+            );
+
+
+            localStorage.removeItem(
+                "loggedInUserName"
+            );
+
+
+            localStorage.removeItem(
+                "smartCampusUser"
+            );
+
+
+            alert(
+                "You have been logged out."
+            );
+
+
+            window.location.href =
+                "login.html";
+
+        }
+
+
+
+        /* =========================================
+           START
+        ========================================= */
+
+        loadBuildingDetails();
+
+    </script>
+
+</body>
+
+</html>
